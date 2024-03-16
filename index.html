@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memagic | Meme creator</title>
+    <link rel="stylesheet" href="css\styles.css">
+
+</head>
+
+<body>
+
+    <header class="main-header flex space-between align-center">
+        <div class="logo">Memagic | <span>Meme Creator</span></div>
+        <nav class="main-nav">
+            <ul class="main-nav-list clean-list flex">
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="saved.html">Saved</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <main class="main-layout">
+        <div class="meme">
+            <!-- This section will display edit of the meme -->
+            <canvas id="meme-preview" width="400" height="400"></canvas>
+        </div>
+
+        <div class="meme-editor">
+            <!-- This section will contain the meme editor -->
+            <textarea id="text-top" placeholder="Enter text for the top line"></textarea>
+
+
+
+            <button class="save" onclick="saveToGallery()">Save</button>
+            <button class="download" onclick="downloadMeme()">Download</button>
+        </div>
+    </main>
+
+
+    <footer class="main-footer flex space-between align-center">
+        <small class="footer-rights">
+            @ all rights reserved | Memagic | 2024
+        </small>
+    </footer>
+
+    <script src="js\meme.storage.js"></script>
+    <script src="js\meme.service.js"></script>
+    <script src="js\meme.controller.js"></script>
+</body>
+
+</html>
