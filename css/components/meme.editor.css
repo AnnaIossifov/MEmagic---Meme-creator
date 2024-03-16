@@ -1,0 +1,78 @@
+.meme-editor {
+    padding: 1em;
+    margin: 2em;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.meme-editor-options {
+    height: 400px;
+    width: 400px;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+
+    border: none;
+    box-shadow: 0 0 9px .5px #00000069;
+    border-radius: .5em;
+}
+
+#text-area {
+    margin: 1em 1em;
+}
+
+.text-editor-container,
+.font-size-up,
+.font-size-down,
+.color-pickers {
+    margin: .5em .5em;
+}
+
+#fill-color,
+#stroke-color {
+    margin: 1em 1em;
+}
+
+.font-size-down,
+.font-size-up {
+    width: 4em;
+}
+
+/* select */
+
+select {
+    display: inline-block;
+    position: relative;
+    font-size: 1em;
+    color: var(--accent-color);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px;
+    background-color: var(--light-color);
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+select:hover {
+    background-color: var(--reg-color);
+}
+
+select option {
+    padding: 8px;
+}

@@ -24,26 +24,41 @@
 
     </header>
 
-    <main class="main-layout">
+    <main class="meme-editor flex">
         <div class="meme">
             <!-- This section will display edit of the meme -->
-            <canvas id="meme-preview" width="400" height="400"></canvas>
+            <canvas class="meme-preview" width="400" height="400"></canvas>
         </div>
 
-        <div class="meme-editor">
+        <div class="meme-editor-options">
+            <h2>Edit your Meme</h2>
             <!-- This section will contain the meme editor -->
-            <textarea id="text-top" placeholder="Enter text for the top line"></textarea>
+            <textarea id="text-area" placeholder="Enter text for the top line"></textarea>
+            <div class="text-editor-container ">
+                <button class="font-size-up" onclick="onFontSizeUp()">+</button>
+                <button class="font-size-down" onclick="onFontSizedown()">-</button>
+                <select onchange="onSetFontFamily()">
+                    <option value="Arial">Arial</option>
+                    <option value="Poppins">Poppins</option>
+                    <option value="Nunito">Nunito</option>
+                </select>
+            </div>
 
+            <div class="color-pickers">
+                <input type="color" id="fill-color" onchange="onSelectFillColor()" value="#000000">
+                <input type="color" id="stroke-color" onchange="onSelectStrokeColor()" value="#000000">
+            </div>
 
-
-            <button class="save" onclick="saveToGallery()">Save</button>
-            <button class="download" onclick="downloadMeme()">Download</button>
+            <div class="actions-container">
+                <button class="save-btn" onclick="saveToGallery()">Save</button>
+                <button class="download-btn" onclick="downloadMeme()">Download</button>
+            </div>
         </div>
     </main>
 
 
-    <footer class="main-footer flex space-between align-center">
-        <small class="footer-rights">
+    <footer class="main-footer">
+        <small>
             @ all rights reserved | Memagic | 2024
         </small>
     </footer>

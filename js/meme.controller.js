@@ -1,4 +1,8 @@
+'use strict'
 
+function renderMeme(){
+    
+}
 
 function loadMemes(){
 
