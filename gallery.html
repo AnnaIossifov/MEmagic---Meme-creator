@@ -5,11 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css\styles.css">
-
     <title>Memagic Gallery</title>
 </head>
 
-<body>
+<body class="main-layout" onload="onInitGallery()">
     <header class="main-header flex space-between align-center">
         <div class="logo">Memagic | <span>Meme Creator</span></div>
         <nav class="main-nav">
@@ -21,16 +20,16 @@
         </nav>
     </header>
 
-    <main calss="gallery-layout">
-        <div class="gallery-item">
-            <img src="path/to/image1.jpg" alt="Meme 1">
-        </div>
-        <div class="gallery-item">
-            <img src="path/to/image2.jpg" alt="Meme 2">
-        </div>
+    <h3>Choose Image for your MEME</h3>
 
+    <main calss="gallery-layout">
+        <div class="gallery-container">
+            <!-- Gallery items will be dynamically added here -->
+        </div>
     </main>
 
+
+    <script src="js\gallery.meme.js"></script>
 </body>
 
 </html>

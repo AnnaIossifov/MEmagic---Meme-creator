@@ -5,7 +5,7 @@
 
 @import url(components/main-header.css);
 
-@import url(css\components\meme.gallery.css);
+@import url(components/meme.gallery.css);
 @import url(components/main-footer.css);
 @import url(components/canvas.css);
 @import url(components/meme.editor.css);

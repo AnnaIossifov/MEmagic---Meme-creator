@@ -1,32 +1,37 @@
 .logo {
-    color: var(--accent-color);
+  color: var(--accent-color);
 
-    padding: 20px;
+  padding: 20px;
 
-    font-family: madimi;
-    text-transform: uppercase;
-    font-size: 2em;
-    letter-spacing: 0.1em;
+  font-family: madimi;
+  text-transform: uppercase;
+  font-size: 2em;
+  letter-spacing: 0.1em;
 }
 
 .logo span {
-    font-family: poppins;
-    color: #ffffff;
-    text-transform: capitalize;
-    font-size: .7em;
+  font-family: poppins;
+  color: #ffffff;
+  text-transform: capitalize;
+  font-size: .7em;
+}
+
+.main-header {
+  margin: 0;
+  /* box-shadow: 0px 0px 20px 3px var(--reg-color); */
 }
 
 .main-header .main-nav-list {
-    text-transform: uppercase;
-    
-  }
-  
-  .main-header .main-nav-list a {
-    text-decoration: none;
-    color: inherit;
-    padding: 15px;
-  }
-  
-  .main-header .main-nav-list a:hover {
-    color: var(--accent-color);
-  }
+  text-transform: uppercase;
+
+}
+
+.main-header .main-nav-list a {
+  text-decoration: none;
+  color: inherit;
+  padding: 15px;
+}
+
+.main-header .main-nav-list a:hover {
+  color: var(--accent-color);
+}
