@@ -1,13 +1,27 @@
-.meme-editor {
+.main-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+#text-input{
+    margin: 1em;
+    
+}
+.text-editor-container{
+    margin: 1em;
+}
+.editor-container {
+    display: none;
     padding: 1em;
     margin: 2em;
 
-    display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.meme-editor-options {
+.meme-editor-options { 
     height: 400px;
     width: 400px;
 
@@ -20,17 +34,18 @@
     border: none;
     box-shadow: 0 0 9px .5px #00000069;
     border-radius: .5em;
+    color: aliceblue;
 }
 
-#text-area {
+#text-container {
     margin: 1em 1em;
 }
 
-.text-editor-container,
+.text-editor,
 .font-size-up,
 .font-size-down,
 .color-pickers {
-    margin: .5em .5em;
+    margin: 1em 1em;
 }
 
 #fill-color,

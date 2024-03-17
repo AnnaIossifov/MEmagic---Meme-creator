@@ -3,11 +3,11 @@
 }
 
 :root {
-    --primary-color: #023535;
+    --primary-color: #012525;
     --dark-color: #015958;
-    --reg-color: #008f8c;
-    --light-color: #23606e;
-    --accent-color: #facfce;
+    --reg-color: #00bbb8;
+    --light-color: #00708a;
+    --accent-color: #ffc5c4;
 }
 
 html {

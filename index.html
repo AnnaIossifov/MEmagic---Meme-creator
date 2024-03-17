@@ -8,50 +8,74 @@
     <title>Memagic | Meme creator</title>
 </head>
 
-<body class="main-layout">
+<body class="main-layout" onload="initMemeEditor()">
 
     <header class="main-header full main-layout">
         <div class="flex space-between align-center">
             <div class="logo">Memagic | <span>Meme Creator</span></div>
             <nav class="main-nav">
                 <ul class="main-nav-list clean-list flex">
-                    <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="saved.html">Saved</a></li>
                     <li><a href="about.html">About</a></li>
                 </ul>
             </nav>
         </div>
-
     </header>
 
-    <main class="meme-editor flex">
-        <div class="meme">
-            <!-- This section will display edit of the meme -->
-            <canvas class="meme-preview" width="400" height="400"></canvas>
+    <main class="main-content flex">
+
+        <h3>Choose Image for your MEME</h3>
+
+        <div class="gallery-layout">
+            <div class="gallery-container"> <!-- Gallery items will be dynamically added here -->
+            </div>
         </div>
 
-        <div class="meme-editor-options">
-            <h2>Edit your Meme</h2>
-            <!-- This section will contain the meme editor -->
-            <textarea id="text-area" placeholder="Enter text for the top line"></textarea>
-            <div class="text-editor-container ">
-                <button class="font-size-up" onclick="onFontSizeUp()">+</button>
-                <button class="font-size-down" onclick="onFontSizedown()">-</button>
-                <select onchange="onSetFontFamily()">
-                    <option value="Arial">Arial</option>
-                    <option value="Poppins">Poppins</option>
-                    <option value="Nunito">Nunito</option>
-                </select>
+
+        <div id="meme-editor" class="editor-container flex">
+            <div class="meme">
+                <!-- Canvas for meme editing -->
+                <canvas id="canvas" width="400" height="400"></canvas>
             </div>
 
-            <div class="color-pickers">
-                <input type="color" id="fill-color" onchange="onSelectFillColor()" value="#000000">
-                <input type="color" id="stroke-color" onchange="onSelectStrokeColor()" value="#000000">
-            </div>
+            <div class="meme-editor-options">
+                <!-- Meme editor controls -->
+                <section class="text-editor-container">
+                    <label for="text-input">Enter text:</label>
+                    <input type="text" id="text-input" placeholder="Enter text" aria-label="Enter text">
+                    <div class="text-editor">
+                        <button class="add-text-line" id="add-text-line-btn">+</button>
+                        <button class="switch-between-text-lines" id="switch-between-text-lines-btn">↑↓</button>
+                        <button class="move-line-up" id="add-text-line-btn">↑</button>
+                        <button class="move-line-down" id="add-text-line-btn">↓</button>
 
-            <div class="actions-container">
-                <button class="save-btn" onclick="saveToGallery()">Save</button>
-                <button class="download-btn" onclick="downloadMeme()">Download</button>
+                        <div class="font-editor-container">
+                            <select id="font-family-select">
+                                <option value="Arial">Arial</option>
+                                <option value="Poppins">Poppins</option>
+                                <option value="Nunito">Nunito</option>
+                            </select>
+                            <button class="font-size-up" id="font-size-up-btn">A+</button>
+                            <button class="font-size-down" id="font-size-down-btn">A-</button>
+                            <label for="fill-color">Fill:</label>
+                            <input type="color" id="fill-color" value="#000000" aria-label="Fill Color">
+
+                            <label for="stroke-color">Stroke:</label>
+                            <input type="color" id="stroke-color" value="#000000" aria-label="Stroke Color">
+                        </div>
+                    </div>
+
+                </section>
+
+                <div class="stickers">
+
+                </div>
+
+                <div class="actions-container">
+                    <button class="save-btn" id="save-btn">Save</button>
+                    <button class="share-btn" id="save-btn">Share</button>
+                    <button class="download-btn" id="download-btn">Download</button>
+                </div>
             </div>
         </div>
     </main>
@@ -63,9 +87,10 @@
         </small>
     </footer>
 
+    <script src="js\meme.controller.js"></script>
+    <script src="js\gallery.meme.js"></script>
     <script src="js\meme.storage.js"></script>
     <script src="js\meme.service.js"></script>
-    <script src="js\meme.controller.js"></script>
 </body>
 
 </html>
