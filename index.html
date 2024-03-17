@@ -50,9 +50,9 @@
                         <button class="move-line-up" id="add-text-line-btn" onclick="changeTextLineUp()">↑</button>
                         <button class="move-line-down" id="add-text-line-btn" onclick="changeTextLineUp()">↓</button>
                         <button class="delete-text-line" id="delete-text-line-btn"
-                            onclick="deleteTextLineUp()">🗑️</button>
+                            onclick="deleteTextLine()">🗑️</button>
                         <div class="font-editor-container">
-                            <select id="font-family-select" onclick="onSetFontFamily()">
+                            <select id="font-family-select" onchange="onSetFontFamily()">
                                 <option value="Arial">Arial</option>
                                 <option value="Poppins">Poppins</option>
                                 <option value="Nunito">Nunito</option>

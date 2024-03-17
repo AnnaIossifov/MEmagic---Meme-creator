@@ -5,6 +5,15 @@ const ctx = canvas.getContext('2d')
 const galleryImages = document.querySelectorAll('.gallery-item')
 const memeData = { txt: 'Example text' }
 
+let textX = 0
+let textY = 0
+let isDragging = false
+let offsetY = 0
+let offsetX = 0
+
+let selectedFillColor = '#000000'
+let selectedFontFamily = 'Arial'
+
 function initMemeEditor() {
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d')
@@ -44,14 +53,26 @@ function renderMeme() {
         ctx.drawImage(selectedImg, 0, 0, canvas.width, canvas.height)
 
         const textInput = document.getElementById('text-input')
-        const text = textInput.value.trim()
+        const text = textInput.value.trim();
 
-        ctx.font = '30px Poppins'
-        ctx.fillStyle = '#FFFFFF'
-        ctx.textAlign = 'center'
-        ctx.fillText(text, canvas.width / 2, 50)
-    }
-    selectedImg.src = selectedImageUrl
+        if (text.length > 0) {
+            ctx.font = '30px Poppins'
+            ctx.textAlign = 'center'
+            const textWidth = ctx.measureText(text).width
+            const textX = canvas.width / 2
+            const textY = 50
+
+            // Box around text
+            ctx.strokeStyle = '#000000'
+            ctx.lineWidth = 2
+            ctx.strokeRect(textX - textWidth / 2 - 10, textY - 30, textWidth + 20, 40)
+
+            // Fill text
+            ctx.fillStyle = '#FFFFFF'
+            ctx.fillText(text, textX, textY)
+        }
+    };
+    selectedImg.src = selectedImageUrl;
 }
 
 document.getElementById('text-input').addEventListener('input', renderMeme)
@@ -95,8 +116,41 @@ function initEventListeners() {
 
 
 // -----------------------------------------------------------------------------------------
+// move text on canvas
 
+function startDragging(e) {
+    isDragging = true
+    startX = e.clientX
+    startY = e.clientY
+}
 
+function stopDragging() {
+    isDragging = false
+}
+
+function moveText(e) {
+    if (isDragging) {
+        const dx = e.clientX - startX
+        const dy = e.clientY - startY
+        textX += dx
+        textY += dy
+        startX = e.clientX
+        startY = e.clientY
+        renderMeme()
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const canvas = document.getElementById('canvas')
+
+    canvas.addEventListener('mousedown', startDragging)
+    canvas.addEventListener('mouseup', stopDragging)
+    canvas.addEventListener('mousemove', moveText)
+
+    renderMeme()
+})
+
+// -----------------------------------------------------------------------------------------
 
 // Loading memes from service
 function loadMemes() {
@@ -111,36 +165,33 @@ function loadMemes() {
 
 // Function to increase font size
 function onFontSizeUp() {
-    const textInput = document.getElementById('#text-input')
+    const textInput = document.getElementById('text-input')
     const currentSize = parseInt(window.getComputedStyle(textInput).fontSize)
     textInput.style.fontSize = `${currentSize + 2}px`
 }
 
 // Function to decrease font size
 function onFontSizeDown() {
-    const textInput = document.getElementById('#text-input')
+    const textInput = document.getElementById('text-input')
     const currentSize = parseInt(window.getComputedStyle(textInput).fontSize)
     textInput.style.fontSize = `${Math.max(currentSize - 2, 10)}px`
 }
 
 // Function to set font family
 function onSetFontFamily() {
-    const textInput = document.getElementById('#text-input')
-    const selectElement = document.getElementById('#font-family-select')
-    const fontFamily = selectElement.value
-    textInput.style.fontFamily = fontFamily
+    const fontFamilySelect = document.getElementById('font-family-select');
+    selectedFontFamily = fontFamilySelect.value
 }
 
 // Function to select fill color
 function onSelectFillColor() {
-    const textInput = document.getElementById('#text-input')
-    const fillColor = document.getElementById('#fill-color').value
-    textInput.style.color = fillColor
+    const fillColorInput = document.getElementById('fill-color');
+    selectedFillColor = fillColorInput.value
 }
 
 // Function to select stroke color
 function onSelectStrokeColor() {
-    const textInput = document.getElementById('#text-input')
-    const strokeColor = document.getElementById('#stroke-color').value
+    const textInput = document.getElementById('text-input')
+    const strokeColor = document.getElementById('stroke-color').value
     textInput.style.textShadow = `1px 1px 1px ${strokeColor}`
 }
