@@ -54,6 +54,9 @@ function renderMeme() {
     selectedImg.src = selectedImageUrl
 }
 
+document.getElementById('text-input').addEventListener('input', renderMeme)
+window.addEventListener('load', renderMeme)
+
 function openEditor() {
     console.log('Opening editor...')
     const editorElement = document.getElementById('meme-editor')
