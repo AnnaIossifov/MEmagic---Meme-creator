@@ -30,8 +30,6 @@ var gKeywordSearchCountMap = {
     'baby': 2
 }
 
-
-
 function loadMemeFromStorage(memeId) {
     console.log('Loading meme from storage by ID')
 
@@ -79,6 +77,8 @@ function updateMeme(memeId) {
     }
 }
 
+// -------------------------------------------------------------------------
+
 function deleteMeme(memeId) {
     console.log('deleting a meme by ID')
 
@@ -87,21 +87,23 @@ function deleteMeme(memeId) {
     localStorage.setItem('memes', JSON.stringify(allMemes))
 }
 
+function downloadMeme() {
+    const downloadLink = document.createElement('a')
+    downloadLink.href = canvas.toDataURL() // Convert canvas to image URL
+    downloadLink.download = 'meme.png' // Set download file
+    document.body.appendChild(downloadLink)
+    downloadLink.click()
+    document.body.removeChild(downloadLink)
+}
+
+function shareMeme(){
+
+}
+
 //  meme to gallery
 function saveToGallery() {
     const canvas = document.getElementById('canvas')
     const dataURL = canvas.toDataURL()
     localStorage.setItem('savedMeme', dataURL)
     alert('Meme saved to gallery!')
-}
-
-function downloadMeme() {
-    const canvas = document.getElementById('canvas')
-    const dataURL = canvas.toDataURL()
-    const a = document.createElement('a')
-    a.href = dataURL
-    a.download = 'my_meme.png'
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
 }

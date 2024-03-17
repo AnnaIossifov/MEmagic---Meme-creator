@@ -96,18 +96,7 @@ function initEventListeners() {
 
 // -----------------------------------------------------------------------------------------
 
-function downloadMeme() {
-    const downloadLink = document.createElement('a')
-    downloadLink.href = canvas.toDataURL() // Convert canvas to image URL
-    downloadLink.download = 'meme.png' // Set download file
-    document.body.appendChild(downloadLink)
-    downloadLink.click()
-    document.body.removeChild(downloadLink)
-}
 
-function shareMeme(){
-
-}
 
 // Loading memes from service
 function loadMemes() {
@@ -155,5 +144,3 @@ function onSelectStrokeColor() {
     const strokeColor = document.getElementById('#stroke-color').value
     textInput.style.textShadow = `1px 1px 1px ${strokeColor}`
 }
-
-
