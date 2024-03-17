@@ -15,11 +15,6 @@ var gMeme =
             txt: 'I sometimes eat Falafel',
             size: 20,
             color: 'red'
-        },
-        {
-            txt: 'Second line',
-            size: 20, color: '#FFFFFF',
-            x: 50, y: 100
         }
     ]
 }
@@ -96,7 +91,7 @@ function downloadMeme() {
     document.body.removeChild(downloadLink)
 }
 
-function shareMeme(){
+function shareMeme() {
 
 }
 
@@ -106,4 +101,24 @@ function saveToGallery() {
     const dataURL = canvas.toDataURL()
     localStorage.setItem('savedMeme', dataURL)
     alert('Meme saved to gallery!')
+}
+
+function addTextLine() {
+    if (gMeme.lines.length >= 2) {
+        alert('You can only have two text lines.')
+        return
+    }
+
+    const newTextLine = {
+        text: document.getElementById('text-input').value.trim(),
+        size: 30,
+        align: 'center',
+        color: '#FFFFFF',
+        strokeColor: '#000000',
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+    }
+    gMeme.lines.push(newTextLine)
+    document.getElementById('text-input').value = ''
+    renderMeme()
 }

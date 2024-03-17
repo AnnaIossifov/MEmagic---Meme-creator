@@ -58,12 +58,12 @@
                                 <option value="Nunito">Nunito</option>
                             </select>
                             <button class="font-size-up" id="font-size-up-btn" onclick="onFontSizeUp()">A+</button>
-                            <button class="font-size-down" id="font-size-down-btn" onclick="onFontSizeDown()">A-</button>
+                            <button class="font-size-down" id="font-size-down-btn"
+                                onclick="onFontSizeDown()">A-</button>
                             <div class="color-pickers">
                                 <label for="fill-color">Fill:</label>
                                 <input type="color" id="fill-color" onchange="onSelectFillColor()" value="#000000"
                                     aria-label="Fill Color">
-
                                 <label for="stroke-color">Stroke:</label>
                                 <input type="color" id="stroke-color" onchange="onSelectStrokeColor()" value="#000000"
                                     aria-label="Stroke Color">
@@ -79,7 +79,7 @@
 
                 <div class="actions-container">
                     <button class="save-btn" id="save-btn" onclick="saveToGallery()">Save</button>
-                    <button class="share-btn" id="save-btn" onclick="shareMeme()" >Share</button>
+                    <button class="share-btn" id="save-btn" onclick="shareMeme()">Share</button>
                     <button class="download-btn" id="download-btn" onclick="downloadMeme()">Download</button>
                 </div>
             </div>

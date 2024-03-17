@@ -11,8 +11,10 @@ let isDragging = false
 let offsetY = 0
 let offsetX = 0
 
-let selectedFillColor = '#000000'
-let selectedFontFamily = 'Arial'
+let selectedFillColor = '#e0e0e0'
+let selectedFontFamily = 'Poppins'
+let selectedStrokeColor = '#000000'
+
 
 function initMemeEditor() {
     const canvas = document.getElementById('canvas')
@@ -53,10 +55,10 @@ function renderMeme() {
         ctx.drawImage(selectedImg, 0, 0, canvas.width, canvas.height)
 
         const textInput = document.getElementById('text-input')
-        const text = textInput.value.trim();
+        const text = textInput.value.trim()
 
         if (text.length > 0) {
-            ctx.font = '30px Poppins'
+            ctx.font = '30px ${selectedFontFamily}'
             ctx.textAlign = 'center'
             const textWidth = ctx.measureText(text).width
             const textX = canvas.width / 2
@@ -67,11 +69,14 @@ function renderMeme() {
             ctx.lineWidth = 2
             ctx.strokeRect(textX - textWidth / 2 - 10, textY - 30, textWidth + 20, 40)
 
-            // Fill text
-            ctx.fillStyle = '#FFFFFF'
+            // Fill and stroke text
+            ctx.fillStyle = selectedFillColor
+            ctx.strokeStyle = selectedStrokeColor
+            ctx.lineWidth = 1
+            ctx.strokeText(text, textX, textY)
             ctx.fillText(text, textX, textY)
         }
-    };
+    }
     selectedImg.src = selectedImageUrl;
 }
 
@@ -100,7 +105,7 @@ function initEventListeners() {
     const strokeColorInput = document.querySelector('#stroke-color')
 
     fontSizeUpBtn.addEventListener('click', onFontSizeUp)
-    fontSizeDownBtn.addEventListener('click', onFontSizedDown)
+    fontSizeDownBtn.addEventListener('click', onFontSizeDown)
     fontFamilySelect.addEventListener('change', onSetFontFamily)
     fillColorInput.addEventListener('change', onSelectFillColor)
     strokeColorInput.addEventListener('change', onSelectStrokeColor)
@@ -158,40 +163,47 @@ function loadMemes() {
     renderMeme(meme)
 }
 
-// Updating a meme
-// function onUpdateMeme(memeId, newText) {
-
-// }
-
 // Function to increase font size
 function onFontSizeUp() {
-    const textInput = document.getElementById('text-input')
-    const currentSize = parseInt(window.getComputedStyle(textInput).fontSize)
-    textInput.style.fontSize = `${currentSize + 2}px`
+    const canvas = document.getElementById('canvas')
+    const ctx = canvas.getContext('2d')
+    const fontSize = parseInt(ctx.font)
+
+    ctx.font = `${fontSize + 2}px Poppins`
+    renderMeme()
 }
 
 // Function to decrease font size
 function onFontSizeDown() {
-    const textInput = document.getElementById('text-input')
-    const currentSize = parseInt(window.getComputedStyle(textInput).fontSize)
-    textInput.style.fontSize = `${Math.max(currentSize - 2, 10)}px`
+    const canvas = document.getElementById('canvas')
+    const ctx = canvas.getContext('2d')
+    const fontSize = parseInt(ctx.font)
+    const newFontSize = Math.max(fontSize - 2, 10)
+
+    ctx.font = `${newFontSize}px Poppins`
+    renderMeme()
 }
 
 // Function to set font family
 function onSetFontFamily() {
-    const fontFamilySelect = document.getElementById('font-family-select');
-    selectedFontFamily = fontFamilySelect.value
+    const selectElement = document.getElementById('font-family-select')
+    selectedFontFamily = selectElement.value
+    renderMeme()
 }
 
 // Function to select fill color
 function onSelectFillColor() {
     const fillColorInput = document.getElementById('fill-color');
     selectedFillColor = fillColorInput.value
+    renderMeme()
 }
 
 // Function to select stroke color
 function onSelectStrokeColor() {
-    const textInput = document.getElementById('text-input')
+    const canvas = document.getElementById('canvas')
+    const ctx = canvas.getContext('2d')
     const strokeColor = document.getElementById('stroke-color').value
-    textInput.style.textShadow = `1px 1px 1px ${strokeColor}`
+
+    ctx.strokeStyle = strokeColor
+    renderMeme()
 }
