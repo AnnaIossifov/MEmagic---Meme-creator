@@ -44,24 +44,30 @@
                     <label for="text-input">Enter text:</label>
                     <input type="text" id="text-input" placeholder="Enter text" aria-label="Enter text">
                     <div class="text-editor">
-                        <button class="add-text-line" id="add-text-line-btn">+</button>
-                        <button class="switch-between-text-lines" id="switch-between-text-lines-btn">↑↓</button>
-                        <button class="move-line-up" id="add-text-line-btn">↑</button>
-                        <button class="move-line-down" id="add-text-line-btn">↓</button>
-
+                        <button class="add-text-line" id="add-text-line-btn" onclick="addTextLine()">+</button>
+                        <button class="switch-between-text-lines" id="switch-between-text-lines-btn"
+                            onclick="switchTextLine()">↑↓</button>
+                        <button class="move-line-up" id="add-text-line-btn" onclick="changeTextLineUp()">↑</button>
+                        <button class="move-line-down" id="add-text-line-btn" onclick="changeTextLineUp()">↓</button>
+                        <button class="delete-text-line" id="delete-text-line-btn"
+                            onclick="deleteTextLineUp()">🗑️</button>
                         <div class="font-editor-container">
-                            <select id="font-family-select">
+                            <select id="font-family-select" onclick="onSetFontFamily()">
                                 <option value="Arial">Arial</option>
                                 <option value="Poppins">Poppins</option>
                                 <option value="Nunito">Nunito</option>
                             </select>
-                            <button class="font-size-up" id="font-size-up-btn">A+</button>
-                            <button class="font-size-down" id="font-size-down-btn">A-</button>
-                            <label for="fill-color">Fill:</label>
-                            <input type="color" id="fill-color" value="#000000" aria-label="Fill Color">
+                            <button class="font-size-up" id="font-size-up-btn" onclick="onFontSizeUp()">A+</button>
+                            <button class="font-size-down" id="font-size-down-btn" onclick="onFontSizeDown()">A-</button>
+                            <div class="color-pickers">
+                                <label for="fill-color">Fill:</label>
+                                <input type="color" id="fill-color" onchange="onSelectFillColor()" value="#000000"
+                                    aria-label="Fill Color">
 
-                            <label for="stroke-color">Stroke:</label>
-                            <input type="color" id="stroke-color" value="#000000" aria-label="Stroke Color">
+                                <label for="stroke-color">Stroke:</label>
+                                <input type="color" id="stroke-color" onchange="onSelectStrokeColor()" value="#000000"
+                                    aria-label="Stroke Color">
+                            </div>
                         </div>
                     </div>
 
@@ -72,9 +78,9 @@
                 </div>
 
                 <div class="actions-container">
-                    <button class="save-btn" id="save-btn">Save</button>
-                    <button class="share-btn" id="save-btn">Share</button>
-                    <button class="download-btn" id="download-btn">Download</button>
+                    <button class="save-btn" id="save-btn" onclick="saveToGallery()">Save</button>
+                    <button class="share-btn" id="save-btn" onclick="shareMeme()" >Share</button>
+                    <button class="download-btn" id="download-btn" onclick="downloadMeme()">Download</button>
                 </div>
             </div>
         </div>

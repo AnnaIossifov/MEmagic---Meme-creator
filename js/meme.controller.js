@@ -105,6 +105,10 @@ function downloadMeme() {
     document.body.removeChild(downloadLink)
 }
 
+function shareMeme(){
+
+}
+
 // Loading memes from service
 function loadMemes() {
     const meme = gMeme.lines[0]
@@ -113,11 +117,6 @@ function loadMemes() {
 
 // Updating a meme
 // function onUpdateMeme(memeId, newText) {
-
-// }
-
-// Deleting a meme
-// function onDeleteMeme(memeId) {
 
 // }
 
