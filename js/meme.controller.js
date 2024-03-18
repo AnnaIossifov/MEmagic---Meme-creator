@@ -143,85 +143,9 @@ function initEventListeners() {
     })
 }
 
-// -----------------------------------------------------------------------------------------
-// move text on canvas
-
-function initTextLines() {
-    const textLines = document.querySelectorAll('.text-line');
-
-    textLines.forEach((line, index) => {
-        line.draggable = true
-
-        line.addEventListener('dragstart', (e) => {
-            e.dataTransfer.setData('text/plain', index)
-        })
-
-        line.addEventListener('drop', (e) => {
-            e.preventDefault()
-            const draggedIndex = e.dataTransfer.getData('text/plain')
-            const droppedIndex = index
-            if (draggedIndex !== droppedIndex) {
-                // Example: swapTextLines(draggedIndex, droppedIndex);
-                console.log(`Dragging from ${draggedIndex} to ${droppedIndex}`)
-            }
-        })
-
-        line.addEventListener('dragover', (e) => {
-            e.preventDefault()
-        })
-    })
-}
-
-function startDragging(e) {
-    const canvasRect = canvas.getBoundingClientRect()
-    const mouseX = e.clientX - canvasRect.left
-    const mouseY = e.clientY - canvasRect.top
-    
-    gMeme.lines.forEach((line, index) => {
-        const textWidth = ctx.measureText(line.txt).width
-        const textX = canvas.width / 2
-        const textY = 50 + index * 50
-        if (
-            mouseX >= textX - textWidth / 2 - 10 &&
-            mouseX <= textX + textWidth / 2 + 10 &&
-            mouseY >= textY - 30 &&
-            mouseY <= textY + 10
-        ) {
-            isDragging = true
-            offsetX = mouseX - textX
-            offsetY = mouseY - textY
-        }
-    })
-}
-
-function moveText(e) {
-    if (isDragging) {
-        const canvasRect = canvas.getBoundingClientRect()
-        const mouseX = e.clientX - canvasRect.left
-        const mouseY = e.clientY - canvasRect.top
-
-        const textX = mouseX - offsetX
-        const textY = mouseY - offsetY
-
-        gMeme.lines[selectedLineIndex].x = textX
-        gMeme.lines[selectedLineIndex].y = textY
-
-        renderMeme()
-    }
-}
-
-function stopDragging() {
-    isDragging = false
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    initTextLines()
-})
-
 // ------------------------------------------------------------------------------------
 
 // Function to increase font size
-
 
 function onFontSizeUp() {
     const fontSizeIncrement = 2
