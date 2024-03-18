@@ -129,6 +129,15 @@ function addTextLine() {
 }
 
 // -----------------------------------------------------------------------------------------
+function selectTextLine(index) {
+    selectedLineIndex = index;
+    if (index >= 0 && index < gMeme.lines.length) {
+        selectedTextColor = gMeme.lines[index].color
+    } else {
+        selectedTextColor = ''
+    }
+    renderMeme()
+}
 
 function switchTextLine() {
     selectedLineIndex = (selectedLineIndex + 1) % gMeme.lines.length

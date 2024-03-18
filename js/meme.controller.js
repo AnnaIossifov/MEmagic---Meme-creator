@@ -12,6 +12,7 @@ let textY = 0
 let offsetY = 0
 let offsetX = 0
 
+let selectedTextColor = ''
 let selectedFillColor = '#e0e0e0'
 let selectedFontFamily = 'Poppins'
 let selectedStrokeColor = '#000000'
@@ -78,7 +79,7 @@ function renderMeme() {
 
             if (text.length > 0) {
                 ctx.font = `${line.size}px Poppins`
-                ctx.fillStyle = line.color
+                ctx.fillStyle = selectedFillColor
                 ctx.textAlign = 'center'
 
                 const textWidth = ctx.measureText(text).width
