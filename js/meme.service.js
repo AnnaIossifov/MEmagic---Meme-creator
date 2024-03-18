@@ -136,6 +136,7 @@ function switchTextLine() {
 }
 
 function changeTextLineUp() {
+    console.log('Changing text line up')
     if (selectedLineIndex > 0) {
         selectedLineIndex--
         renderMeme()
@@ -206,9 +207,6 @@ function moveText(e) {
         const mouseX = e.clientX - canvasRect.left
         const mouseY = e.clientY - canvasRect.top
 
-        const textX = mouseX - offsetX
-        const textY = mouseY - offsetY
-
         gMeme.lines[selectedLineIndex].x = mouseX - offsetX
         gMeme.lines[selectedLineIndex].y = mouseY - offsetY
 
@@ -230,17 +228,37 @@ function detectLineClick(mouseX, mouseY) {
     selectedLineIndex = -1
 
     gMeme.lines.forEach((line, index) => {
+        console.log(`Line ${index} - X: ${line.x}, Y: ${line.y}, Width: ${line.width}, Height: ${line.height}`)
+
         if (
             mouseX >= line.x &&
             mouseX <= line.x + line.width &&
             mouseY >= line.y &&
             mouseY <= line.y + line.height
         ) {
+            console.log(`Clicked on Line ${index}`)
             selectedLineIndex = index
         }
     })
 
+    console.log('Selected Line Index:', selectedLineIndex)
     renderMeme()
+}
+
+function calculateTextDimensions(line) {
+    const canvas = document.getElementById('canvas')
+    const ctx = canvas.getContext('2d')
+    ctx.font = `${line.size}px Poppins`
+    const textWidth = ctx.measureText(line.txt.trim()).width
+    const textHeight = line.size + 10
+    line.width = textWidth
+    line.height = textHeight
+}
+
+function updateTextDimensions() {
+    gMeme.lines.forEach(line => {
+        calculateTextDimensions(line)
+    })
 }
 
 canvas.addEventListener('click', function (e) {

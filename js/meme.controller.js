@@ -97,10 +97,9 @@ function renderMeme() {
                     ctx.strokeStyle = 'green'
                     ctx.strokeRect(textX - textWidth / 2 - 10, textY - 30, textWidth + 20, 40)
                 }
-            } else {
-                console.log('No text provided for line:', line)
             }
         })
+        updateTextDimensions()
     }
     selectedImg.src = selectedImageUrl
 }
@@ -141,33 +140,6 @@ function initEventListeners() {
     })
 }
 
-canvas.addEventListener('click', function (event) {
-    const canvasRect = canvas.getBoundingClientRect()
-    const mouseX = event.clientX - canvasRect.left
-    const mouseY = event.clientY - canvasRect.top
-
-    console.log('Clicked at:', mouseX, mouseY)
-
-    for (let i = 0; i < gMeme.lines.length; i++) {
-        const line = gMeme.lines[i]
-        const textX = line.x
-        const textY = line.y
-        const textWidth = ctx.measureText(line.txt).width
-        const textHeight = line.size
-
-        if (
-            mouseX >= textX - textWidth / 2 &&
-            mouseX <= textX + textWidth / 2 &&
-            mouseY >= textY - textHeight &&
-            mouseY <= textY
-        ) {
-            selectedLineIndex = i
-            ctx.strokeStyle = 'green'
-            renderMeme()
-            break
-        }
-    }
-})
 // ------------------------------------------------------------------------------------
 
 // Function to increase font size
