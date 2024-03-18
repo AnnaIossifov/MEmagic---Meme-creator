@@ -150,6 +150,16 @@ function changeTextLineDown() {
     }
 }
 
+function deleteTextLine() {
+    if (selectedLineIndex !== -1) {
+        gMeme.lines.splice(selectedLineIndex, 1)
+        selectedLineIndex = -1
+        renderMeme()
+    } else {
+        console.log('No line selected to delete')
+    }
+}
+
 // -----------------------------------------------------------------------------------------
 // move text on canvas
 
