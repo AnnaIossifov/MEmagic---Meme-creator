@@ -6,17 +6,11 @@ var gImgs = [
     }
 ]
 
-var gMeme =
+let gMeme =
 {
     selectedImgId: 5,
     selectedLineIdx: 0,
-    lines: [
-        {
-            txt: 'I sometimes eat Falafel',
-            size: 20,
-            color: 'red'
-        }
-    ]
+    lines: []
 }
 
 var gKeywordSearchCountMap = {
@@ -61,25 +55,23 @@ function saveMeme(meme) {
     localStorage.setItem('memes', JSON.stringify(allMemes))
 }
 
-function updateMeme(memeId) {
-    console.log('updating a meme text by ID')
+// function updateMeme(memeId) {
+//     console.log('updating a meme text by ID')
 
-    let allMemes = getMemes()
-    const memeToUpdate = allMemes.find(meme => meme.id === memeId)
-    if (memeToUpdate) {
-        memeToUpdate.text = newText
-        localStorage.setItem('memes', JSON.stringify(allMemes))
-    }
-}
+//     let allMemes = getMemes()
+//     const memeToUpdate = allMemes.find(meme => meme.id === memeId)
+//     if (memeToUpdate) {
+//         memeToUpdate.text = newText
+//         localStorage.setItem('memes', JSON.stringify(allMemes))
+//     }
+// }
 
 // -------------------------------------------------------------------------
 
-function deleteMeme(memeId) {
-    console.log('deleting a meme by ID')
-
-    let allMemes = getMemes()
-    allMemes = allMemes.filter(meme => meme.id !== memeId)
-    localStorage.setItem('memes', JSON.stringify(allMemes))
+// Loading memes from service
+function loadMemes() {
+    const meme = gMeme.lines[0]
+    renderMeme(meme)
 }
 
 function downloadMeme() {
@@ -95,7 +87,9 @@ function shareMeme() {
 
 }
 
+// ------------------------------------------------------------------------
 //  meme to gallery
+
 function saveToGallery() {
     const canvas = document.getElementById('canvas')
     const dataURL = canvas.toDataURL()
@@ -103,22 +97,52 @@ function saveToGallery() {
     alert('Meme saved to gallery!')
 }
 
-function addTextLine() {
-    if (gMeme.lines.length >= 2) {
-        alert('You can only have two text lines.')
-        return
-    }
+function deleteMeme(memeId) {
+    console.log('deleting a meme by ID')
 
-    const newTextLine = {
-        text: document.getElementById('text-input').value.trim(),
-        size: 30,
-        align: 'center',
-        color: '#FFFFFF',
-        strokeColor: '#000000',
-        x: canvas.width / 2,
-        y: canvas.height / 2,
+    let allMemes = getMemes()
+    allMemes = allMemes.filter(meme => meme.id !== memeId)
+    localStorage.setItem('memes', JSON.stringify(allMemes))
+}
+
+// -------------------- Phase4 – multiple lines --------------------------
+
+function addTextLine() {
+    const textInput = document.getElementById('text-input');
+    const text = textInput.value.trim()
+
+    if (text) {
+        gMeme.lines.push({
+            txt: text,
+            size: 20,
+            color: selectedFillColor
+        })
+
+        textInput.value = ''
+        renderMeme()
+    } else {
+        alert('Please enter text before adding a line.')
     }
-    gMeme.lines.push(newTextLine)
-    document.getElementById('text-input').value = ''
+    console.log('Selected color:', selectedFillColor)
+}
+
+// -----------------------------------------------------------------------------------------
+
+function switchTextLine() {
+    selectedLineIndex = (selectedLineIndex + 1) % gMeme.lines.length
     renderMeme()
+}
+
+function changeTextLineUp() {
+    if (selectedLineIndex > 0) {
+        selectedLineIndex--
+        renderMeme()
+    }
+}
+
+function changeTextLineDown() {
+    if (selectedLineIndex < gMeme.lines.length - 1) {
+        selectedLineIndex++
+        renderMeme()
+    }
 }

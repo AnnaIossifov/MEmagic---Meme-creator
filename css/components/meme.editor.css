@@ -7,11 +7,12 @@
 
 #text-input{
     margin: 1em;
-    
 }
+
 .text-editor-container{
     margin: 1em;
 }
+
 .editor-container {
     display: none;
     padding: 1em;

@@ -5,9 +5,10 @@ const ctx = canvas.getContext('2d')
 const galleryImages = document.querySelectorAll('.gallery-item')
 const memeData = { txt: 'Example text' }
 
+let isDragging = false
 let textX = 0
 let textY = 0
-let isDragging = false
+
 let offsetY = 0
 let offsetX = 0
 
@@ -15,6 +16,19 @@ let selectedFillColor = '#e0e0e0'
 let selectedFontFamily = 'Poppins'
 let selectedStrokeColor = '#000000'
 
+let selectedLineIndex = 0
+
+const moveLineUpBtn = document.getElementById('move-line-up')
+const moveLineDownBtn = document.getElementById('move-line-down')
+
+moveLineUpBtn.addEventListener('click', changeTextLineUp)
+moveLineDownBtn.addEventListener('click', changeTextLineDown)
+
+window.addEventListener('load', renderMeme)
+document.getElementById('text-input').addEventListener('input', renderMeme)
+
+
+// ------------------------------------------------------------------------------------------
 
 function initMemeEditor() {
     const canvas = document.getElementById('canvas')
@@ -26,11 +40,16 @@ function initMemeEditor() {
     }
 
     loadMemes()
-    renderMeme(memeData)
     initEventListeners()
-    openEditor()
-}
 
+    const galleryImages = document.querySelectorAll('.gallery-item img')
+    galleryImages.forEach(img => {
+        img.addEventListener('click', function () {
+            renderImageToCanvas(img)
+            openEditor()
+        })
+    })
+}
 
 galleryImages.forEach(img => {
     img.addEventListener('click', function () {
@@ -51,37 +70,42 @@ function renderMeme() {
 
     const selectedImg = new Image()
     selectedImg.onload = function () {
+        // console.log('Image loaded')
+
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.drawImage(selectedImg, 0, 0, canvas.width, canvas.height)
 
-        const textInput = document.getElementById('text-input')
-        const text = textInput.value.trim()
+        gMeme.lines.forEach((line, index) => {
+            const text = line.txt.trim()
 
-        if (text.length > 0) {
-            ctx.font = '30px ${selectedFontFamily}'
-            ctx.textAlign = 'center'
-            const textWidth = ctx.measureText(text).width
-            const textX = canvas.width / 2
-            const textY = 50
+            if (text.length > 0) {
+                ctx.font = `${line.size}px Poppins`
+                ctx.fillStyle = line.color
+                ctx.textAlign = 'center'
 
-            // Box around text
-            ctx.strokeStyle = '#000000'
-            ctx.lineWidth = 2
-            ctx.strokeRect(textX - textWidth / 2 - 10, textY - 30, textWidth + 20, 40)
+                const textWidth = ctx.measureText(text).width
+                const textX = canvas.width / 2
+                const textY = 50 + index * 50
 
-            // Fill and stroke text
-            ctx.fillStyle = selectedFillColor
-            ctx.strokeStyle = selectedStrokeColor
-            ctx.lineWidth = 1
-            ctx.strokeText(text, textX, textY)
-            ctx.fillText(text, textX, textY)
-        }
+                // Box around text
+                ctx.strokeStyle = '#000000'
+                ctx.lineWidth = 2
+                ctx.strokeRect(textX - textWidth / 2 - 10, textY - 30, textWidth + 20, 40)
+
+                // Fill text
+                ctx.fillText(text, textX, textY)
+
+                if (index === selectedLineIndex) {
+                    ctx.strokeStyle = 'green'
+                    ctx.strokeRect(textX - textWidth / 2 - 10, textY - 30, textWidth + 20, 40)
+                }
+            } else {
+                console.log('No text provided for line:', line)
+            }
+        })
     }
-    selectedImg.src = selectedImageUrl;
+    selectedImg.src = selectedImageUrl
 }
-
-document.getElementById('text-input').addEventListener('input', renderMeme)
-window.addEventListener('load', renderMeme)
 
 function openEditor() {
     console.log('Opening editor...')
@@ -119,68 +143,98 @@ function initEventListeners() {
     })
 }
 
-
 // -----------------------------------------------------------------------------------------
 // move text on canvas
 
+function initTextLines() {
+    const textLines = document.querySelectorAll('.text-line');
+
+    textLines.forEach((line, index) => {
+        line.draggable = true
+
+        line.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', index)
+        })
+
+        line.addEventListener('drop', (e) => {
+            e.preventDefault()
+            const draggedIndex = e.dataTransfer.getData('text/plain')
+            const droppedIndex = index
+            if (draggedIndex !== droppedIndex) {
+                // Example: swapTextLines(draggedIndex, droppedIndex);
+                console.log(`Dragging from ${draggedIndex} to ${droppedIndex}`)
+            }
+        })
+
+        line.addEventListener('dragover', (e) => {
+            e.preventDefault()
+        })
+    })
+}
+
 function startDragging(e) {
-    isDragging = true
-    startX = e.clientX
-    startY = e.clientY
+    const canvasRect = canvas.getBoundingClientRect()
+    const mouseX = e.clientX - canvasRect.left
+    const mouseY = e.clientY - canvasRect.top
+    
+    gMeme.lines.forEach((line, index) => {
+        const textWidth = ctx.measureText(line.txt).width
+        const textX = canvas.width / 2
+        const textY = 50 + index * 50
+        if (
+            mouseX >= textX - textWidth / 2 - 10 &&
+            mouseX <= textX + textWidth / 2 + 10 &&
+            mouseY >= textY - 30 &&
+            mouseY <= textY + 10
+        ) {
+            isDragging = true
+            offsetX = mouseX - textX
+            offsetY = mouseY - textY
+        }
+    })
+}
+
+function moveText(e) {
+    if (isDragging) {
+        const canvasRect = canvas.getBoundingClientRect()
+        const mouseX = e.clientX - canvasRect.left
+        const mouseY = e.clientY - canvasRect.top
+
+        const textX = mouseX - offsetX
+        const textY = mouseY - offsetY
+
+        gMeme.lines[selectedLineIndex].x = textX
+        gMeme.lines[selectedLineIndex].y = textY
+
+        renderMeme()
+    }
 }
 
 function stopDragging() {
     isDragging = false
 }
 
-function moveText(e) {
-    if (isDragging) {
-        const dx = e.clientX - startX
-        const dy = e.clientY - startY
-        textX += dx
-        textY += dy
-        startX = e.clientX
-        startY = e.clientY
-        renderMeme()
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    const canvas = document.getElementById('canvas')
-
-    canvas.addEventListener('mousedown', startDragging)
-    canvas.addEventListener('mouseup', stopDragging)
-    canvas.addEventListener('mousemove', moveText)
-
-    renderMeme()
+document.addEventListener('DOMContentLoaded', () => {
+    initTextLines()
 })
 
-// -----------------------------------------------------------------------------------------
-
-// Loading memes from service
-function loadMemes() {
-    const meme = gMeme.lines[0]
-    renderMeme(meme)
-}
+// ------------------------------------------------------------------------------------
 
 // Function to increase font size
-function onFontSizeUp() {
-    const canvas = document.getElementById('canvas')
-    const ctx = canvas.getContext('2d')
-    const fontSize = parseInt(ctx.font)
 
-    ctx.font = `${fontSize + 2}px Poppins`
+
+function onFontSizeUp() {
+    const fontSizeIncrement = 2
+    const line = gMeme.lines[selectedLineIndex]
+    line.size += fontSizeIncrement
     renderMeme()
 }
 
 // Function to decrease font size
 function onFontSizeDown() {
-    const canvas = document.getElementById('canvas')
-    const ctx = canvas.getContext('2d')
-    const fontSize = parseInt(ctx.font)
-    const newFontSize = Math.max(fontSize - 2, 10)
-
-    ctx.font = `${newFontSize}px Poppins`
+    const fontSizeDecrement = 2
+    const line = gMeme.lines[selectedLineIndex]
+    line.size = Math.max(line.size - fontSizeDecrement, 10)
     renderMeme()
 }
 
