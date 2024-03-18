@@ -26,7 +26,7 @@ moveLineDownBtn.addEventListener('click', changeTextLineDown)
 
 window.addEventListener('load', renderMeme)
 document.getElementById('text-input').addEventListener('input', renderMeme)
-
+canvas.addEventListener('click', handleCanvasClick)
 
 // ------------------------------------------------------------------------------------------
 
@@ -70,8 +70,6 @@ function renderMeme() {
 
     const selectedImg = new Image()
     selectedImg.onload = function () {
-        // console.log('Image loaded')
-
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.drawImage(selectedImg, 0, 0, canvas.width, canvas.height)
 
@@ -84,8 +82,8 @@ function renderMeme() {
                 ctx.textAlign = 'center'
 
                 const textWidth = ctx.measureText(text).width
-                const textX = canvas.width / 2
-                const textY = 50 + index * 50
+                const textX = line.x
+                const textY = line.y
 
                 // Box around text
                 ctx.strokeStyle = '#000000'
@@ -143,6 +141,33 @@ function initEventListeners() {
     })
 }
 
+canvas.addEventListener('click', function (event) {
+    const canvasRect = canvas.getBoundingClientRect()
+    const mouseX = event.clientX - canvasRect.left
+    const mouseY = event.clientY - canvasRect.top
+
+    console.log('Clicked at:', mouseX, mouseY)
+
+    for (let i = 0; i < gMeme.lines.length; i++) {
+        const line = gMeme.lines[i]
+        const textX = line.x
+        const textY = line.y
+        const textWidth = ctx.measureText(line.txt).width
+        const textHeight = line.size
+
+        if (
+            mouseX >= textX - textWidth / 2 &&
+            mouseX <= textX + textWidth / 2 &&
+            mouseY >= textY - textHeight &&
+            mouseY <= textY
+        ) {
+            selectedLineIndex = i
+            ctx.strokeStyle = 'green'
+            renderMeme()
+            break
+        }
+    }
+})
 // ------------------------------------------------------------------------------------
 
 // Function to increase font size

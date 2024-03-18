@@ -115,7 +115,9 @@ function addTextLine() {
         gMeme.lines.push({
             txt: text,
             size: 20,
-            color: selectedFillColor
+            color: selectedFillColor,
+            x: canvas.width / 2, 
+            y: 50 + gMeme.lines.length * 50,
         })
 
         textInput.value = ''
@@ -180,7 +182,7 @@ function startDragging(e) {
     const canvasRect = canvas.getBoundingClientRect()
     const mouseX = e.clientX - canvasRect.left
     const mouseY = e.clientY - canvasRect.top
-    
+
     gMeme.lines.forEach((line, index) => {
         const textWidth = ctx.measureText(line.txt).width
         const textX = canvas.width / 2
@@ -207,8 +209,8 @@ function moveText(e) {
         const textX = mouseX - offsetX
         const textY = mouseY - offsetY
 
-        gMeme.lines[selectedLineIndex].x = textX
-        gMeme.lines[selectedLineIndex].y = textY
+        gMeme.lines[selectedLineIndex].x = mouseX - offsetX
+        gMeme.lines[selectedLineIndex].y = mouseY - offsetY
 
         renderMeme()
     }
@@ -220,4 +222,30 @@ function stopDragging() {
 
 document.addEventListener('DOMContentLoaded', () => {
     initTextLines()
+})
+
+// ------------------------ Phase5 – selectable lines -----------------------------------------
+
+function detectLineClick(mouseX, mouseY) {
+    selectedLineIndex = -1
+
+    gMeme.lines.forEach((line, index) => {
+        if (
+            mouseX >= line.x &&
+            mouseX <= line.x + line.width &&
+            mouseY >= line.y &&
+            mouseY <= line.y + line.height
+        ) {
+            selectedLineIndex = index
+        }
+    })
+
+    renderMeme()
+}
+
+canvas.addEventListener('click', function (e) {
+    const canvasRect = canvas.getBoundingClientRect()
+    const mouseX = e.clientX - canvasRect.left
+    const mouseY = e.clientY - canvasRect.top
+    detectLineClick(mouseX, mouseY)
 })
