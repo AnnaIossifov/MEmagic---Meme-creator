@@ -1,7 +1,6 @@
 @import url(basics/base.css);
 
 @import url(setup/typography.css);
-@import url(setup/mq.css);
 
 @import url(components/main-header.css);
 
@@ -10,3 +9,4 @@
 @import url(components/canvas.css);
 @import url(components/meme.editor.css);
 
+@import url(setup/mq.css);

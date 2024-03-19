@@ -34,6 +34,7 @@ h3 {
     color: var(--accent-color);
     padding: 1em;
     margin: auto;
+    margin-top: 1.5em;
 }
 
 /* main-layout */

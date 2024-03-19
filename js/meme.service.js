@@ -83,9 +83,10 @@ function downloadMeme() {
     document.body.removeChild(downloadLink)
 }
 
-function shareMeme() {
+// function shareMeme() {
 
-}
+// }
+
 
 // ------------------------------------------------------------------------
 //  meme to gallery

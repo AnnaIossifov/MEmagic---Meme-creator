@@ -29,6 +29,13 @@ window.addEventListener('load', renderMeme)
 document.getElementById('text-input').addEventListener('input', renderMeme)
 canvas.addEventListener('click', handleCanvasClick)
 
+const menuBtn = document.querySelector('.mobile-nav-btn')
+const sideMenu = document.querySelector('.side-menu')
+
+menuBtn.addEventListener('click', function() {
+    sideMenu.classList.toggle('active')
+})
+
 // ------------------------------------------------------------------------------------------
 
 function initMemeEditor() {
@@ -141,6 +148,19 @@ function initEventListeners() {
     })
 }
 
+function toggleMenu() {
+    const sideMenu = document.querySelector('.side-menu')
+    const mobileNavBtn = document.getElementById('mobile-nav-btn')
+    const body = document.body
+
+    sideMenu.classList.toggle('menu-open')
+    body.classList.toggle('menu-open')
+
+    if (sideMenu.classList.contains('menu-open')) {
+        mobileNavBtn.textContent = '✕'
+    } else {
+        mobileNavBtn.textContent = '☰'
+    }}
 // ------------------------------------------------------------------------------------
 
 // Function to increase font size

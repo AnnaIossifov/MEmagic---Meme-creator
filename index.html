@@ -11,6 +11,12 @@
 <body class="main-layout" onload="initMemeEditor()">
 
     <header class="main-header full main-layout">
+        <div class="side-menu">
+            <ul class="clean-list">
+                <li><a href="saved.html">Saved</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </div>
         <div class="flex space-between align-center">
             <div class="logo">Memagic | <span>Meme Creator</span></div>
             <nav class="main-nav">
@@ -19,9 +25,10 @@
                     <li><a href="about.html">About</a></li>
                 </ul>
             </nav>
+            <button class="mobile-nav-btn" id="mobile-nav-btn" onclick="toggleMenu()">☰</button>
         </div>
     </header>
-
+    
     <main class="main-content flex">
 
         <h3>Choose Image for your MEME</h3>
@@ -30,7 +37,6 @@
             <div class="gallery-container"> <!-- Gallery items will be dynamically added here -->
             </div>
         </div>
-
 
         <div id="meme-editor" class="editor-container flex">
             <div class="meme">
@@ -70,12 +76,9 @@
                             </div>
                         </div>
                     </div>
-
                 </section>
 
-                <div class="stickers">
-
-                </div>
+                <div class="stickers"></div>
 
                 <div class="actions-container">
                     <button class="save-btn" id="save-btn" onclick="saveToGallery()">Save</button>
@@ -85,7 +88,6 @@
             </div>
         </div>
     </main>
-
 
     <footer class="main-footer">
         <small>
