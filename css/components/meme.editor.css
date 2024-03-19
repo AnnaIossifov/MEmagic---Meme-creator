@@ -20,6 +20,7 @@
 
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .meme-editor-options { 
@@ -36,6 +37,16 @@
     box-shadow: 0 0 9px .5px #00000069;
     border-radius: .5em;
     color: aliceblue;
+}
+
+.actions-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #text-container {

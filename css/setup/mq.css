@@ -5,12 +5,13 @@
 
     .mobile-nav-btn {
         display: block;
-        z-index: 50;
+        z-index: 1005;
     }
 
     .side-menu {
         right: -250px;
         transition: left 0.3s ease;
+        z-index: 1000;
     }
 
     .side-menu.active {
@@ -44,7 +45,6 @@
     .meme-editor-options {
         width: 100%;
         height: auto;
-        max-width: 300px;
     }
 }
 
@@ -61,7 +61,7 @@
     }
 
     .logo {
-        width: 300px;
+        width: 280px;
         padding: .3px;
         font-size: 1.2em;
     }

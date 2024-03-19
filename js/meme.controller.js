@@ -32,6 +32,13 @@ canvas.addEventListener('click', handleCanvasClick)
 const menuBtn = document.querySelector('.mobile-nav-btn')
 const sideMenu = document.querySelector('.side-menu')
 
+canvas.addEventListener('click', function (e) {
+    const canvasRect = canvas.getBoundingClientRect()
+    const mouseX = e.clientX - canvasRect.left
+    const mouseY = e.clientY - canvasRect.top
+    detectLineClick(mouseX, mouseY)
+})
+
 menuBtn.addEventListener('click', function() {
     sideMenu.classList.toggle('active')
 })
@@ -87,6 +94,7 @@ function renderMeme() {
             if (text.length > 0) {
                 ctx.font = `${line.size}px Poppins`
                 ctx.fillStyle = selectedFillColor
+                ctx.strokeStyle = line.strokeColor
                 ctx.textAlign = 'center'
 
                 const textWidth = ctx.measureText(text).width
@@ -122,6 +130,9 @@ function openEditor() {
         console.error('Error: Editor element not found')
     }
     elGallery.style.display = 'none'
+
+    isEditorOpen = true
+    toggleActionsContainer(true)
 }
 
 // Initializing event listeners
@@ -164,7 +175,6 @@ function toggleMenu() {
 // ------------------------------------------------------------------------------------
 
 // Function to increase font size
-
 function onFontSizeUp() {
     const fontSizeIncrement = 2
     const line = gMeme.lines[selectedLineIndex]

@@ -28,8 +28,8 @@
             <button class="mobile-nav-btn" id="mobile-nav-btn" onclick="toggleMenu()">☰</button>
         </div>
     </header>
-    
-    <main class="main-content flex">
+
+    <main class="main-content flex ">
 
         <h3>Choose Image for your MEME</h3>
 
@@ -57,12 +57,18 @@
                         <button class="move-line-down" id="move-line-down" onclick="changeTextLineDown()">↓</button>
                         <button class="delete-text-line" id="delete-text-line-btn"
                             onclick="deleteTextLine()">🗑️</button>
+
                         <div class="font-editor-container">
                             <select id="font-family-select" onchange="onSetFontFamily()">
                                 <option value="Arial">Arial</option>
                                 <option value="Poppins">Poppins</option>
                                 <option value="Nunito">Nunito</option>
                             </select>
+                            <div class="text-alignment">
+                                <button id="align-left">Left</button>
+                                <button id="align-center">Center</button>
+                                <button id="align-right">Right</button>
+                            </div>
                             <button class="font-size-up" id="font-size-up-btn" onclick="onFontSizeUp()">A+</button>
                             <button class="font-size-down" id="font-size-down-btn"
                                 onclick="onFontSizeDown()">A-</button>
@@ -77,14 +83,12 @@
                         </div>
                     </div>
                 </section>
-
-                <div class="stickers"></div>
-
-                <div class="actions-container">
-                    <button class="save-btn" id="save-btn" onclick="saveToGallery()">Save</button>
-                    <button class="share-btn" id="save-btn" onclick="shareMeme()">Share</button>
-                    <button class="download-btn" id="download-btn" onclick="downloadMeme()">Download</button>
-                </div>
+                <!-- <div class="stickers"></div> -->
+            </div>
+            <div class="actions-container">
+                <button class="save-btn" id="save-btn" onclick="saveToGallery()">Save</button>
+                <button class="share-btn" id="save-btn" onclick="shareMeme()">Share</button>
+                <button class="download-btn" id="download-btn" onclick="downloadMeme()">Download</button>
             </div>
         </div>
     </main>

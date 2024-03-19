@@ -83,10 +83,35 @@ function downloadMeme() {
     document.body.removeChild(downloadLink)
 }
 
-// function shareMeme() {
+function shareMeme() {
+    const imgDataUrl = gElCanvas.toDataURL('image/jpeg')
 
-// }
+    function onSuccess(uploadedImgUrl) {
+        const url = encodeURIComponent(uploadedImgUrl)
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&t=${url}`)
+    }
+    doUploadImg(imgDataUrl, onSuccess)
+}
 
+function doUploadImg(imgDataUrl, onSuccess) {
+    const formData = new FormData()
+    formData.append('img', imgDataUrl)
+
+    const XHR = new XMLHttpRequest()
+    XHR.onreadystatechange = () => {
+        if (XHR.readyState !== XMLHttpRequest.DONE) return
+        if (XHR.status !== 200) return console.error('Error uploading image')
+        const { responseText: url } = XHR
+
+        console.log('Got back live url:', url)
+        onSuccess(url)
+    }
+    XHR.onerror = (req, ev) => {
+        console.error('Error connecting to server with request:', req, '\nGot response data:', ev)
+    }
+    XHR.open('POST', '//ca-upload.com/here/upload.php')
+    XHR.send(formData)
+}
 
 // ------------------------------------------------------------------------
 //  meme to gallery
@@ -98,12 +123,21 @@ function saveToGallery() {
     alert('Meme saved to gallery!')
 }
 
-function deleteMeme(memeId) {
-    console.log('deleting a meme by ID')
+// function deleteMeme(memeId) {
+//     console.log('deleting a meme by ID')
 
-    let allMemes = getMemes()
-    allMemes = allMemes.filter(meme => meme.id !== memeId)
-    localStorage.setItem('memes', JSON.stringify(allMemes))
+//     let allMemes = getMemes()
+//     allMemes = allMemes.filter(meme => meme.id !== memeId)
+//     localStorage.setItem('memes', JSON.stringify(allMemes))
+// }
+
+function toggleActionsContainer(show) {
+    const actionsContainer = document.querySelector('.actions-container')
+    if (show) {
+        actionsContainer.classList.remove('hidden')
+    } else {
+        actionsContainer.classList.add('hidden')
+    }
 }
 
 // -------------------- Phase4 – multiple lines --------------------------
@@ -117,7 +151,7 @@ function addTextLine() {
             txt: text,
             size: 20,
             color: selectedFillColor,
-            x: canvas.width / 2, 
+            x: canvas.width / 2,
             y: 50 + gMeme.lines.length * 50,
         })
 
@@ -281,9 +315,4 @@ function updateTextDimensions() {
     })
 }
 
-canvas.addEventListener('click', function (e) {
-    const canvasRect = canvas.getBoundingClientRect()
-    const mouseX = e.clientX - canvasRect.left
-    const mouseY = e.clientY - canvasRect.top
-    detectLineClick(mouseX, mouseY)
-})
+
