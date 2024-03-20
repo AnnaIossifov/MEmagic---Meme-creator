@@ -131,14 +131,7 @@ function saveToGallery() {
 //     localStorage.setItem('memes', JSON.stringify(allMemes))
 // }
 
-function toggleActionsContainer(show) {
-    const actionsContainer = document.querySelector('.actions-container')
-    if (show) {
-        actionsContainer.classList.remove('hidden')
-    } else {
-        actionsContainer.classList.add('hidden')
-    }
-}
+
 
 // -------------------- Phase4 – multiple lines --------------------------
 
@@ -167,9 +160,10 @@ function addTextLine() {
 function selectTextLine(index) {
     selectedLineIndex = index;
     if (index >= 0 && index < gMeme.lines.length) {
-        selectedTextColor = gMeme.lines[index].color
+        selectedFillColor = gMeme.lines[index].color
+        console.log('Selected fill color:', selectedFillColor)
     } else {
-        selectedTextColor = ''
+        selectedFillColor = ''
     }
     renderMeme()
 }
@@ -179,17 +173,20 @@ function switchTextLine() {
     renderMeme()
 }
 
-function changeTextLineUp() {
+function moveTextLineUp() {
     console.log('Changing text line up')
-    if (selectedLineIndex > 0) {
-        selectedLineIndex--
+    if (selectedLineIndex >= 0 && selectedLineIndex < gMeme.lines.length) {
+        const moveAmount = 3
+        gMeme.lines[selectedLineIndex].y -= moveAmount
         renderMeme()
     }
 }
 
-function changeTextLineDown() {
-    if (selectedLineIndex < gMeme.lines.length - 1) {
-        selectedLineIndex++
+function moveTextLineDown() {
+    console.log('Changing text line down')
+    if (selectedLineIndex >= 0 && selectedLineIndex < gMeme.lines.length) {
+        const moveAmount = 3
+        gMeme.lines[selectedLineIndex].y += moveAmount
         renderMeme()
     }
 }
@@ -315,4 +312,50 @@ function updateTextDimensions() {
     })
 }
 
+function setTextFont(fontFamily) {
+    const canvas = document.getElementById('canvas')
+    const ctx = canvas.getContext('2d')
+    
+    gMeme.lines[gMeme.selectedLineIdx].fontFamily = fontFamily
 
+    ctx.font = `${gMeme.lines[gMeme.selectedLineIdx].size}px ${fontFamily}`
+
+    console.log('Font family set:', fontFamily)
+    console.log('Updated gMeme:', gMeme)
+    
+    renderMeme()
+}
+
+function setTextSize(fontSize) {
+    const canvas = document.getElementById('canvas')
+    const ctx = canvas.getContext('2d')
+
+    gMeme.lines[gMeme.selectedLineIdx].size = fontSize
+
+    ctx.font = `${fontSize}px ${gMeme.lines[gMeme.selectedLineIdx].fontFamily}`
+
+    console.log('Font size set:', fontSize)
+    console.log('Updated gMeme:', gMeme)
+    
+    renderMeme()
+}
+
+function setTextAlignment(alignValue) {
+    const canvas = document.getElementById('canvas')
+    const ctx = canvas.getContext('2d')
+
+    gMeme.lines[gMeme.selectedLineIdx].alignment = alignValue
+
+    ctx.textAlign = alignValue
+
+    console.log('Alignment set:', alignValue)
+    console.log('Updated gMeme:', gMeme)
+    
+    renderMeme()
+}
+
+function setSelectedLineColor(color) {
+    if (selectedLineIndex >= 0 && selectedLineIndex < gMeme.lines.length) {
+        gMeme.lines[selectedLineIndex].color = color
+    }
+}

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css\styles.css">
+    <script src="https://kit.fontawesome.com/612646e836.js" crossorigin="anonymous"></script>
     <title>Memagic | Meme creator</title>
 </head>
 
@@ -49,14 +50,18 @@
                 <section class="text-editor-container">
                     <label for="text-input">Enter text:</label>
                     <input type="text" id="text-input" placeholder="Enter text" aria-label="Enter text">
+                    <button class="add-text-line" id="add-text-line-btn" onclick="addTextLine()"><i
+                            class="fa-solid fa-plus"></i></button>
                     <div class="text-editor">
-                        <button class="add-text-line" id="add-text-line-btn" onclick="addTextLine()">+</button>
+
                         <button class="switch-between-text-lines" id="switch-between-text-lines-btn"
-                            onclick="switchTextLine()">↑↓</button>
-                        <button class="move-line-up" id="move-line-up" onclick="changeTextLineUp()">↑</button>
-                        <button class="move-line-down" id="move-line-down" onclick="changeTextLineDown()">↓</button>
-                        <button class="delete-text-line" id="delete-text-line-btn"
-                            onclick="deleteTextLine()">🗑️</button>
+                            onclick="switchTextLine()"><i class="fa-solid fa-repeat"></i></button>
+                        <button class="move-line-up" id="move-line-up" onclick="moveTextLineUp()"><i
+                                class="fa-solid fa-arrow-up"></i></button>
+                        <button class="move-line-down" id="move-line-down" onclick="moveTextLineDown()"><i
+                                class="fa-solid fa-arrow-down"></i></button>
+                        <button class="delete-text-line" id="delete-text-line-btn" onclick="deleteTextLine()"><i
+                                class="fa-regular fa-trash-can"></i></button>
 
                         <div class="font-editor-container">
                             <select id="font-family-select" onchange="onSetFontFamily()">
@@ -64,14 +69,14 @@
                                 <option value="Poppins">Poppins</option>
                                 <option value="Nunito">Nunito</option>
                             </select>
-                            <div class="text-alignment">
-                                <button id="align-left">Left</button>
-                                <button id="align-center">Center</button>
-                                <button id="align-right">Right</button>
-                            </div>
+                            <button id="align-left"><i class="fa-solid fa-align-left"></i></button>
+                            <button id="align-center"><i class="fa-solid fa-align-center"></i></button>
+                            <button id="align-right"><i class="fa-solid fa-align-right"></i></button>
+
                             <button class="font-size-up" id="font-size-up-btn" onclick="onFontSizeUp()">A+</button>
                             <button class="font-size-down" id="font-size-down-btn"
                                 onclick="onFontSizeDown()">A-</button>
+
                             <div class="color-pickers">
                                 <label for="fill-color">Fill:</label>
                                 <input type="color" id="fill-color" onchange="onSelectFillColor()" value="#000000"
@@ -86,9 +91,12 @@
                 <!-- <div class="stickers"></div> -->
             </div>
             <div class="actions-container">
-                <button class="save-btn" id="save-btn" onclick="saveToGallery()">Save</button>
-                <button class="share-btn" id="save-btn" onclick="shareMeme()">Share</button>
-                <button class="download-btn" id="download-btn" onclick="downloadMeme()">Download</button>
+                <button class="save-btn" id="save-btn" onclick="saveToGallery()"><i
+                        class="fa-regular fa-bookmark"></i></button>
+                <button class="share-btn" id="save-btn" onclick="shareMeme()"><i
+                        class="fa-solid fa-share-nodes"></i></button>
+                <button class="download-btn" id="download-btn" onclick="downloadMeme()"><i
+                        class="fa-solid fa-download"></i></button>
             </div>
         </div>
     </main>

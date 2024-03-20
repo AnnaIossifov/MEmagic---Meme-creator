@@ -5,6 +5,12 @@ const ctx = canvas.getContext('2d')
 const galleryImages = document.querySelectorAll('.gallery-item')
 const memeData = { txt: 'Example text' }
 
+const fontFamilySelect = document.getElementById('font-family')
+const fontSizeInput = document.getElementById('font-size')
+const alignLeftBtn = document.getElementById('align-left')
+const alignCenterBtn = document.getElementById('align-center')
+const alignRightBtn = document.getElementById('align-right')
+
 let isDragging = false
 let textX = 0
 let textY = 0
@@ -18,12 +24,6 @@ let selectedFontFamily = 'Poppins'
 let selectedStrokeColor = '#000000'
 
 let selectedLineIndex = 0
-
-const moveLineUpBtn = document.getElementById('move-line-up')
-const moveLineDownBtn = document.getElementById('move-line-down')
-
-moveLineUpBtn.addEventListener('click', changeTextLineUp)
-moveLineDownBtn.addEventListener('click', changeTextLineDown)
 
 window.addEventListener('load', renderMeme)
 document.getElementById('text-input').addEventListener('input', renderMeme)
@@ -39,8 +39,30 @@ canvas.addEventListener('click', function (e) {
     detectLineClick(mouseX, mouseY)
 })
 
-menuBtn.addEventListener('click', function() {
+menuBtn.addEventListener('click', function () {
     sideMenu.classList.toggle('active')
+})
+
+fontFamilySelect.addEventListener('change', function () {
+    const selectedFont = this.value;
+    setTextFont(selectedFont)
+});
+
+fontSizeInput.addEventListener('change', function () {
+    const fontSize = `${this.value}px`
+    setTextSize(fontSize)
+})
+
+alignLeftBtn.addEventListener('click', function () {
+    setTextAlignment('left')
+})
+
+alignCenterBtn.addEventListener('click', function () {
+    setTextAlignment('center')
+})
+
+alignRightBtn.addEventListener('click', function () {
+    setTextAlignment('right')
 })
 
 // ------------------------------------------------------------------------------------------
@@ -73,9 +95,81 @@ galleryImages.forEach(img => {
 })
 
 // Rendering the meme on the canvas
+// function renderMeme() {
+//     const canvas = document.getElementById('canvas')
+//     const ctx = canvas.getContext('2d')
+
+//     const selectedImageUrl = localStorage.getItem('selectedImageUrl')
+
+//     if (!selectedImageUrl) {
+//         console.error('Error: Selected image URL not found')
+//         return
+//     }
+
+//     const selectedImg = new Image()
+//     selectedImg.onload = function () {
+//         ctx.clearRect(0, 0, canvas.width, canvas.height)
+//         ctx.drawImage(selectedImg, 0, 0, canvas.width, canvas.height)
+
+//         gMeme.lines.forEach((line, index) => {
+//            const maxWidth = canvas.width - 20
+//             const lineHeight = line.size * 1.2
+
+//             const words = line.txt.split(' ')
+//             let currentLine = ''
+//             const lines = []
+
+//             words.forEach(word => {
+//                 const testLine = currentLine ? `${currentLine} ${word}` : word
+//                 const testWidth = ctx.measureText(testLine).width
+//                 if (testWidth > maxWidth && currentLine !== '') {
+//                     lines.push(currentLine);
+//                     currentLine = word;
+//                 } else {
+//                     currentLine = testLine;
+//                 }
+//             })
+//             lines.push(currentLine)
+
+//             const totalHeight = lines.length * lineHeight;
+//             let textY = line.y - totalHeight / 2
+
+//             lines.forEach(text => {
+//                 ctx.font = `${line.size}px ${line.fontFamily}`
+//                 ctx.fillStyle = line.color
+//                 ctx.textAlign = line.alignment || 'center'
+//                 const textWidth = ctx.measureText(text).width
+
+//                 // box around text
+//                 if (index === selectedLineIndex) {
+//                     ctx.strokeStyle = 'green'
+//                 } else {
+//                     ctx.strokeStyle = '#000000'
+//                 }
+
+//                 ctx.lineWidth = 2
+//                 ctx.strokeRect(line.x - textWidth / 2 - 10, textY - 30, textWidth + 20, lineHeight)
+
+//                 ctx.fillText(text, line.x, textY)
+//                 textY += lineHeight
+
+//                 // green box for selected text
+//                 if (index === selectedLineIndex) {
+//                     ctx.strokeStyle = 'green'
+//                     ctx.strokeRect(line.x - textWidth / 2 - 10, textY - lineHeight, textWidth + 20, lineHeight)
+//                 }
+//             })
+//         })
+//         updateTextDimensions()
+//     }
+//     selectedImg.src = selectedImageUrl
+// }
+
 function renderMeme() {
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d')
+
+
 
     const selectedImageUrl = localStorage.getItem('selectedImageUrl')
     if (!selectedImageUrl) {
@@ -92,25 +186,25 @@ function renderMeme() {
             const text = line.txt.trim()
 
             if (text.length > 0) {
-                ctx.font = `${line.size}px Poppins`
-                ctx.fillStyle = selectedFillColor
-                ctx.strokeStyle = line.strokeColor
+               ctx.font = `${line.size}px Poppins`
                 ctx.textAlign = 'center'
+                ctx.fillStyle = line.color
+
+                if (index === selectedLineIndex) {
+                    ctx.fillStyle = selectedFillColor ? selectedFillColor : fillTextColor
+                    ctx.strokeStyle = 'green'
+                } else {
+                    ctx.fillStyle = line.color
+                    ctx.strokeStyle = 'transparent'
+                }
 
                 const textWidth = ctx.measureText(text).width
                 const textX = line.x
                 const textY = line.y
 
-                // Box around text
-                ctx.strokeStyle = '#000000'
-                ctx.lineWidth = 2
-                ctx.strokeRect(textX - textWidth / 2 - 10, textY - 30, textWidth + 20, 40)
-
-                // Fill text
                 ctx.fillText(text, textX, textY)
 
                 if (index === selectedLineIndex) {
-                    ctx.strokeStyle = 'green'
                     ctx.strokeRect(textX - textWidth / 2 - 10, textY - 30, textWidth + 20, 40)
                 }
             }
@@ -119,6 +213,9 @@ function renderMeme() {
     }
     selectedImg.src = selectedImageUrl
 }
+
+
+
 
 function openEditor() {
     console.log('Opening editor...')
@@ -130,9 +227,6 @@ function openEditor() {
         console.error('Error: Editor element not found')
     }
     elGallery.style.display = 'none'
-
-    isEditorOpen = true
-    toggleActionsContainer(true)
 }
 
 // Initializing event listeners
@@ -171,7 +265,8 @@ function toggleMenu() {
         mobileNavBtn.textContent = '✕'
     } else {
         mobileNavBtn.textContent = '☰'
-    }}
+    }
+}
 // ------------------------------------------------------------------------------------
 
 // Function to increase font size
@@ -192,24 +287,45 @@ function onFontSizeDown() {
 
 // Function to set font family
 function onSetFontFamily() {
-    const selectElement = document.getElementById('font-family-select')
-    selectedFontFamily = selectElement.value
+    const fillColorInput = document.getElementById('fill-color')
+    selectedFillColor = fillColorInput.value
+
+    const canvas = document.getElementById('canvas')
+    const ctx = canvas.getContext('2d')
+    ctx.fillStyle = selectedFillColor
+
+    console.log('Selected fill color:', selectedFillColor)
+    console.log('Canvas context:', ctx)
+
     renderMeme()
 }
 
 // Function to select fill color
 function onSelectFillColor() {
-    const fillColorInput = document.getElementById('fill-color');
+    const fillColorInput = document.getElementById('fill-color')
     selectedFillColor = fillColorInput.value
+
+    console.log('Selected fill color:', selectedFillColor)
+
+    if (selectedLineIndex >= 0 && selectedLineIndex < gMeme.lines.length) {
+        gMeme.lines[selectedLineIndex].color = selectedFillColor
+    }
     renderMeme()
 }
 
 // Function to select stroke color
 function onSelectStrokeColor() {
-    const canvas = document.getElementById('canvas')
-    const ctx = canvas.getContext('2d')
-    const strokeColor = document.getElementById('stroke-color').value
+    const strokeColorInput = document.getElementById('stroke-color')
+    selectedStrokeColor = strokeColorInput.value
+    console.log('Selected stroke color:', selectedStrokeColor)
 
-    ctx.strokeStyle = strokeColor
+    if (selectedLineIndex >= 0 && selectedLineIndex < gMeme.lines.length) {
+        gMeme.lines[selectedLineIndex].strokeColor = selectedStrokeColor;
+    }
     renderMeme()
 }
+
+const moveLineUpBtn = document.getElementById('move-line-up')
+const moveLineDownBtn = document.getElementById('move-line-down')
+moveLineUpBtn.addEventListener('click', changeTextLineUp)
+moveLineDownBtn.addEventListener('click', changeTextLineDown)
