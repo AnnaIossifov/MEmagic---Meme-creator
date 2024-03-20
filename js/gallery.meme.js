@@ -78,14 +78,14 @@ function renderImageToCanvas(imgUrl) {
 
     if (!canvas || !ctx) {
         console.error('Error: Canvas or context not available')
-        return;
+        return
     }
 
     const selectedImg = new Image()
     selectedImg.onload = function () {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.drawImage(selectedImg, 0, 0, canvas.width, canvas.height)
-    };
+    }
     selectedImg.src = imgUrl
 }
 
