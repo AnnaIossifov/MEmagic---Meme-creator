@@ -315,14 +315,14 @@ function updateTextDimensions() {
 function setTextFont(fontFamily) {
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d')
-    
+
     gMeme.lines[gMeme.selectedLineIdx].fontFamily = fontFamily
 
     ctx.font = `${gMeme.lines[gMeme.selectedLineIdx].size}px ${fontFamily}`
 
     console.log('Font family set:', fontFamily)
     console.log('Updated gMeme:', gMeme)
-    
+
     renderMeme()
 }
 
@@ -336,7 +336,7 @@ function setTextSize(fontSize) {
 
     console.log('Font size set:', fontSize)
     console.log('Updated gMeme:', gMeme)
-    
+
     renderMeme()
 }
 
@@ -350,7 +350,7 @@ function setTextAlignment(alignValue) {
 
     console.log('Alignment set:', alignValue)
     console.log('Updated gMeme:', gMeme)
-    
+
     renderMeme()
 }
 
@@ -359,3 +359,4 @@ function setSelectedLineColor(color) {
         gMeme.lines[selectedLineIndex].color = color
     }
 }
+

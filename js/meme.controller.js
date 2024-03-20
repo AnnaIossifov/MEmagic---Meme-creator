@@ -94,82 +94,9 @@ galleryImages.forEach(img => {
     })
 })
 
-// Rendering the meme on the canvas
-// function renderMeme() {
-//     const canvas = document.getElementById('canvas')
-//     const ctx = canvas.getContext('2d')
-
-//     const selectedImageUrl = localStorage.getItem('selectedImageUrl')
-
-//     if (!selectedImageUrl) {
-//         console.error('Error: Selected image URL not found')
-//         return
-//     }
-
-//     const selectedImg = new Image()
-//     selectedImg.onload = function () {
-//         ctx.clearRect(0, 0, canvas.width, canvas.height)
-//         ctx.drawImage(selectedImg, 0, 0, canvas.width, canvas.height)
-
-//         gMeme.lines.forEach((line, index) => {
-//            const maxWidth = canvas.width - 20
-//             const lineHeight = line.size * 1.2
-
-//             const words = line.txt.split(' ')
-//             let currentLine = ''
-//             const lines = []
-
-//             words.forEach(word => {
-//                 const testLine = currentLine ? `${currentLine} ${word}` : word
-//                 const testWidth = ctx.measureText(testLine).width
-//                 if (testWidth > maxWidth && currentLine !== '') {
-//                     lines.push(currentLine);
-//                     currentLine = word;
-//                 } else {
-//                     currentLine = testLine;
-//                 }
-//             })
-//             lines.push(currentLine)
-
-//             const totalHeight = lines.length * lineHeight;
-//             let textY = line.y - totalHeight / 2
-
-//             lines.forEach(text => {
-//                 ctx.font = `${line.size}px ${line.fontFamily}`
-//                 ctx.fillStyle = line.color
-//                 ctx.textAlign = line.alignment || 'center'
-//                 const textWidth = ctx.measureText(text).width
-
-//                 // box around text
-//                 if (index === selectedLineIndex) {
-//                     ctx.strokeStyle = 'green'
-//                 } else {
-//                     ctx.strokeStyle = '#000000'
-//                 }
-
-//                 ctx.lineWidth = 2
-//                 ctx.strokeRect(line.x - textWidth / 2 - 10, textY - 30, textWidth + 20, lineHeight)
-
-//                 ctx.fillText(text, line.x, textY)
-//                 textY += lineHeight
-
-//                 // green box for selected text
-//                 if (index === selectedLineIndex) {
-//                     ctx.strokeStyle = 'green'
-//                     ctx.strokeRect(line.x - textWidth / 2 - 10, textY - lineHeight, textWidth + 20, lineHeight)
-//                 }
-//             })
-//         })
-//         updateTextDimensions()
-//     }
-//     selectedImg.src = selectedImageUrl
-// }
-
 function renderMeme() {
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d')
-
-
 
     const selectedImageUrl = localStorage.getItem('selectedImageUrl')
     if (!selectedImageUrl) {
@@ -213,9 +140,6 @@ function renderMeme() {
     }
     selectedImg.src = selectedImageUrl
 }
-
-
-
 
 function openEditor() {
     console.log('Opening editor...')
@@ -329,3 +253,32 @@ const moveLineUpBtn = document.getElementById('move-line-up')
 const moveLineDownBtn = document.getElementById('move-line-down')
 moveLineUpBtn.addEventListener('click', changeTextLineUp)
 moveLineDownBtn.addEventListener('click', changeTextLineDown)
+
+// ----------------------------------
+
+function handleCanvasClick(event) {
+    const canvasBounds = canvas.getBoundingClientRect()
+    const mouseX = event.clientX - canvasBounds.left
+    const mouseY = event.clientY - canvasBounds.top
+
+
+    gMeme.lines.forEach((line, index) => {
+        const textWidth = ctx.measureText(line.txt).width
+        const textX = line.x
+        const textY = line.y
+
+        const boxLeft = textX - textWidth / 2 - 10
+        const boxRight = textX + textWidth / 2 + 10
+        const boxTop = textY - 30
+        const boxBottom = textY + 10
+
+        if (mouseX >= boxLeft
+            && mouseX <= boxRight
+            && mouseY >= boxTop
+            && mouseY <= boxBottom) {
+            selectedLineIndex = index
+            renderMeme()
+            return
+        }
+    })
+}
