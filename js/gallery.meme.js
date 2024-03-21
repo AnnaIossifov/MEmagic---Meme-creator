@@ -83,6 +83,7 @@ function initializeLocalStorage() {
 //     const canvas = document.getElementById('canvas')
 //     const ctx = canvas.getContext('2d')
 
+<<<<<<< HEAD
 //     if (!canvas || !ctx) {
 //         console.error('Error: Canvas or context not available')
 //         return
@@ -95,6 +96,20 @@ function initializeLocalStorage() {
 //     }
 //     selectedImg.src = imgUrl
 // }
+=======
+    if (!canvas || !ctx) {
+        console.error('Error: Canvas or context not available')
+        return
+    }
+
+    const selectedImg = new Image()
+    selectedImg.onload = function () {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.drawImage(selectedImg, 0, 0, canvas.width, canvas.height)
+    }
+    selectedImg.src = imgUrl
+}
+>>>>>>> 67d0b392145bd41319bf0012bcd9e9141b01005e
 
 function saveSelectedImage(imageUrl) {
     localStorage.setItem('selectedImageUrl', imageUrl)

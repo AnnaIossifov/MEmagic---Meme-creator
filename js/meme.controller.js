@@ -43,6 +43,14 @@ menuBtn.addEventListener('click', function () {
     sideMenu.classList.toggle('active')
 })
 
+<<<<<<< HEAD
+=======
+fontFamilySelect.addEventListener('change', function () {
+    const selectedFont = this.value
+    setTextFont(selectedFont)
+})
+
+>>>>>>> 67d0b392145bd41319bf0012bcd9e9141b01005e
 fontSizeInput.addEventListener('change', function () {
     const fontSize = `${this.value}px`
     setTextSize(fontSize)
@@ -127,6 +135,7 @@ function renderMeme() {
                 const textWidth = ctx.measureText(text).width
                 const textHeight = line.size
 
+<<<<<<< HEAD
                 let boxX, boxY
 
                 if (line.alignment === 'left') {
@@ -138,6 +147,19 @@ function renderMeme() {
                 }
 
                 boxY = textY - textHeight
+=======
+                let boxX, boxY;
+
+                if (line.alignment === 'left') {
+                    boxX = textX;
+                } else if (line.alignment === 'center') {
+                    boxX = textX - textWidth / 2;
+                } else if (line.alignment === 'right') {
+                    boxX = textX - textWidth;
+                }
+
+                boxY = textY - textHeight;
+>>>>>>> 67d0b392145bd41319bf0012bcd9e9141b01005e
                 if (index === selectedLineIndex) {
                     ctx.strokeRect(textX - textWidth / 2 - 10, textY - 30, textWidth + 20, 40)
                 }
@@ -218,7 +240,11 @@ function onFontSizeDown() {
 
 // Function to set font family
 function onSetFontFamily() {
+<<<<<<< HEAD
     setTextFamily()
+=======
+    setTextFont()
+>>>>>>> 67d0b392145bd41319bf0012bcd9e9141b01005e
     renderMeme()
 }
 
