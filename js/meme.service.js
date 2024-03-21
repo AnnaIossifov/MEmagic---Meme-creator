@@ -23,12 +23,21 @@ let gMeme =
     ]
 }
 
-
-
 var gKeywordSearchCountMap = {
     'funny': 12,
     'cat': 16,
     'baby': 2
+}
+
+const memeService = {
+    saveMeme: function (meme) {
+        const savedMemes = this.getSavedMemes()
+        savedMemes.push(meme)
+        saveToStorage('savedMemes', savedMemes)
+    },
+    getSavedMemes: function () {
+        return loadFromStorage('savedMemes') || []
+    }
 }
 
 function loadMemeFromStorage(memeId) {
@@ -125,24 +134,6 @@ function doUploadImg(imgDataUrl, onSuccess) {
     XHR.open('POST', '//ca-upload.com/here/upload.php')
     XHR.send(formData)
 }
-
-// ------------------------------------------------------------------------
-//  meme to gallery
-
-function saveToGallery() {
-    const canvas = document.getElementById('canvas')
-    const dataURL = canvas.toDataURL()
-    localStorage.setItem('savedMeme', dataURL)
-    alert('Meme saved to gallery!')
-}
-
-// function deleteMeme(memeId) {
-//     console.log('deleting a meme by ID')
-
-//     let allMemes = getMemes()
-//     allMemes = allMemes.filter(meme => meme.id !== memeId)
-//     localStorage.setItem('memes', JSON.stringify(allMemes))
-// }
 
 // -------------------- Phase4 – multiple lines --------------------------
 
@@ -335,6 +326,11 @@ function setTextFamily(fontFamily) {
     }
 }
 
+fontFamilySelect.addEventListener('change', function () {
+    const selectedFont = this.value
+    setTextFont(selectedFont)
+})
+
 function setTextSize(fontSize) {
     const fontFamilySelect = document.getElementById('font-family-select')
     const selectedFontFamily = fontFamilySelect.value
@@ -347,6 +343,11 @@ function setTextSize(fontSize) {
     renderMeme()
 }
 
+fontSizeInput.addEventListener('change', function () {
+    const fontSize = `${this.value}px`
+    setTextSize(fontSize)
+})
+
 function setTextAlignment(alignValue) {
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d')
@@ -355,9 +356,30 @@ function setTextAlignment(alignValue) {
     renderMeme()
 }
 
+alignLeftBtn.addEventListener('click', function () {
+    setTextAlignment('left')
+})
+
+alignCenterBtn.addEventListener('click', function () {
+    setTextAlignment('center')
+})
+
+alignRightBtn.addEventListener('click', function () {
+    setTextAlignment('right')
+})
+
 function setSelectedLineColor(color) {
     if (selectedLineIndex >= 0 && selectedLineIndex < gMeme.lines.length) {
         gMeme.lines[selectedLineIndex].color = color
     }
 }
 
+
+
+// function deleteMeme(memeId) {
+//     console.log('deleting a meme by ID')
+
+//     let allMemes = getMemes()
+//     allMemes = allMemes.filter(meme => meme.id !== memeId)
+//     localStorage.setItem('memes', JSON.stringify(allMemes))
+// }

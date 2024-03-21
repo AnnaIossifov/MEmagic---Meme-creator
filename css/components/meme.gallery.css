@@ -1,4 +1,5 @@
-.gallery-container {
+.gallery-container,
+.saved-memes-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     grid-auto-flow: dense;
@@ -12,6 +13,6 @@
     width: 100%;
 }
 
-.random-meme-btn{
+.random-meme-btn {
     width: 180px;
 }

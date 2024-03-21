@@ -1,5 +1,3 @@
-'use strict'
-
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
 const galleryImages = document.querySelectorAll('.gallery-item')
@@ -41,28 +39,6 @@ canvas.addEventListener('click', function (e) {
 
 menuBtn.addEventListener('click', function () {
     sideMenu.classList.toggle('active')
-})
-
-fontFamilySelect.addEventListener('change', function () {
-    const selectedFont = this.value
-    setTextFont(selectedFont)
-})
-
-fontSizeInput.addEventListener('change', function () {
-    const fontSize = `${this.value}px`
-    setTextSize(fontSize)
-})
-
-alignLeftBtn.addEventListener('click', function () {
-    setTextAlignment('left')
-})
-
-alignCenterBtn.addEventListener('click', function () {
-    setTextAlignment('center')
-})
-
-alignRightBtn.addEventListener('click', function () {
-    setTextAlignment('right')
 })
 
 galleryImages.forEach(img => {
@@ -132,7 +108,7 @@ function renderMeme() {
                 const textWidth = ctx.measureText(text).width
                 const textHeight = line.size
 
-                let boxX, boxY
+                var boxX, boxY
 
                 if (line.alignment === 'left') {
                     boxX = textX
@@ -227,11 +203,6 @@ function onSetFontFamily() {
     renderMeme()
 }
 
-fontFamilySelect.addEventListener('change', function () {
-    const selectedFont = this.value
-    setTextFont(selectedFont)
-})
-
 // Function to select fill color
 function onSelectFillColor() {
     const fillColorInput = document.getElementById('fill-color')
@@ -288,5 +259,27 @@ function handleCanvasClick(event) {
             renderMeme()
             return
         }
+    })
+}
+
+// -------------------------- Save to gallery ---------------------------------
+function saveToGallery() {
+    const createdMeme = getCurrentMeme()
+    memeService.saveMeme(createdMeme)
+    alert('Meme saved successfully!')
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    displaySavedMemes()
+})
+
+function displaySavedMemes() {
+    const savedMemes = memeService.getSavedMemes()
+    const savedMemesContainer = document.querySelector('saved-memes-container')
+
+    savedMemes.forEach(meme => {
+        const memeElement = document.createElement('div')
+        memeElement.textContent = JSON.stringify(meme)
+        savedMemesContainer.appendChild(memeElement)
     })
 }
