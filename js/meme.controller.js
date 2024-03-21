@@ -43,11 +43,6 @@ menuBtn.addEventListener('click', function () {
     sideMenu.classList.toggle('active')
 })
 
-fontFamilySelect.addEventListener('change', function () {
-    const selectedFont = this.value;
-    setTextFont(selectedFont)
-});
-
 fontSizeInput.addEventListener('change', function () {
     const fontSize = `${this.value}px`
     setTextSize(fontSize)
@@ -63,6 +58,12 @@ alignCenterBtn.addEventListener('click', function () {
 
 alignRightBtn.addEventListener('click', function () {
     setTextAlignment('right')
+})
+
+galleryImages.forEach(img => {
+    img.addEventListener('click', function () {
+        renderImageToCanvas(img)
+    })
 })
 
 // ------------------------------------------------------------------------------------------
@@ -88,12 +89,6 @@ function initMemeEditor() {
     })
 }
 
-galleryImages.forEach(img => {
-    img.addEventListener('click', function () {
-        renderImageToCanvas(img)
-    })
-})
-
 function renderMeme() {
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d')
@@ -113,8 +108,8 @@ function renderMeme() {
             const text = line.txt.trim()
 
             if (text.length > 0) {
-               ctx.font = `${line.size}px Poppins`
-                ctx.textAlign = 'center'
+                ctx.font = `${line.size}px ${line.fontFamily}`
+                ctx.textAlign = line.alignment
                 ctx.fillStyle = line.color
 
                 if (index === selectedLineIndex) {
@@ -124,13 +119,25 @@ function renderMeme() {
                     ctx.fillStyle = line.color
                     ctx.strokeStyle = 'transparent'
                 }
-
-                const textWidth = ctx.measureText(text).width
                 const textX = line.x
                 const textY = line.y
 
                 ctx.fillText(text, textX, textY)
 
+                const textWidth = ctx.measureText(text).width
+                const textHeight = line.size
+
+                let boxX, boxY
+
+                if (line.alignment === 'left') {
+                    boxX = textX
+                } else if (line.alignment === 'center') {
+                    boxX = textX - textWidth / 2
+                } else if (line.alignment === 'right') {
+                    boxX = textX - textWidth
+                }
+
+                boxY = textY - textHeight
                 if (index === selectedLineIndex) {
                     ctx.strokeRect(textX - textWidth / 2 - 10, textY - 30, textWidth + 20, 40)
                 }
@@ -171,7 +178,7 @@ function initEventListeners() {
     galleryItems.forEach(function (item) {
         item.addEventListener('click', function () {
             const imageUrl = item.src
-            saveSelectedImage(imageUrl);
+            saveSelectedImage(imageUrl)
             console.log("Image clicked! URL: ", imageUrl)
         })
     })
@@ -211,18 +218,14 @@ function onFontSizeDown() {
 
 // Function to set font family
 function onSetFontFamily() {
-    const fillColorInput = document.getElementById('fill-color')
-    selectedFillColor = fillColorInput.value
-
-    const canvas = document.getElementById('canvas')
-    const ctx = canvas.getContext('2d')
-    ctx.fillStyle = selectedFillColor
-
-    console.log('Selected fill color:', selectedFillColor)
-    console.log('Canvas context:', ctx)
-
+    setTextFamily()
     renderMeme()
 }
+
+fontFamilySelect.addEventListener('change', function () {
+    const selectedFont = this.value
+    setTextFont(selectedFont)
+})
 
 // Function to select fill color
 function onSelectFillColor() {
@@ -244,7 +247,7 @@ function onSelectStrokeColor() {
     console.log('Selected stroke color:', selectedStrokeColor)
 
     if (selectedLineIndex >= 0 && selectedLineIndex < gMeme.lines.length) {
-        gMeme.lines[selectedLineIndex].strokeColor = selectedStrokeColor;
+        gMeme.lines[selectedLineIndex].strokeColor = selectedStrokeColor
     }
     renderMeme()
 }

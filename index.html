@@ -34,6 +34,7 @@
 
         <h3>Choose Image for your MEME</h3>
 
+<button class="random-meme-btn" onclick="generateRandomMeme()">Generate Random Meme</button>
         <div class="gallery-layout">
             <div class="gallery-container"> <!-- Gallery items will be dynamically added here -->
             </div>
@@ -69,9 +70,9 @@
                                 <option value="Poppins">Poppins</option>
                                 <option value="Nunito">Nunito</option>
                             </select>
-                            <button id="align-left"><i class="fa-solid fa-align-left"></i></button>
-                            <button id="align-center"><i class="fa-solid fa-align-center"></i></button>
-                            <button id="align-right"><i class="fa-solid fa-align-right"></i></button>
+                            <button id="align-left" onclick="setTextAlignment('left')"><i class="fa-solid fa-align-left"></i></button>
+                            <button id="align-center" onclick="setTextAlignment('center')"><i class="fa-solid fa-align-center"></i></button>
+                            <button id="align-right" onclick="setTextAlignment('right')"><i class="fa-solid fa-align-right"></i></button>
 
                             <button class="font-size-up" id="font-size-up-btn" onclick="onFontSizeUp()">A+</button>
                             <button class="font-size-down" id="font-size-down-btn"
@@ -106,9 +107,9 @@
             @ all rights reserved | Memagic | 2024
         </small>
     </footer>
-
-    <script src="js\meme.controller.js"></script>
     <script src="js\gallery.meme.js"></script>
+    <script src="js\meme.controller.js"></script>
+    
     <script src="js\meme.storage.js"></script>
     <script src="js\meme.service.js"></script>
 </body>

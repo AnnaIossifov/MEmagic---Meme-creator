@@ -10,8 +10,20 @@ let gMeme =
 {
     selectedImgId: 5,
     selectedLineIdx: 0,
-    lines: []
+    lines: [
+        {
+            txt: '',
+            size: 12,
+            fontFamily: 'Arial',
+            alignment: 'center',
+            color: '#000000',
+            x: 0,
+            y: 0
+        }
+    ]
 }
+
+
 
 var gKeywordSearchCountMap = {
     'funny': 12,
@@ -44,7 +56,7 @@ function createMeme(imageUrl, text) {
         imageUrl: imageUrl,
         text: text
     }
-    localStorage.setItem('meme', JSON.stringify(meme));
+    localStorage.setItem('meme', JSON.stringify(meme))
 }
 
 function saveMeme(meme) {
@@ -69,6 +81,7 @@ function saveMeme(meme) {
 // -------------------------------------------------------------------------
 
 // Loading memes from service
+
 function loadMemes() {
     const meme = gMeme.lines[0]
     renderMeme(meme)
@@ -131,12 +144,10 @@ function saveToGallery() {
 //     localStorage.setItem('memes', JSON.stringify(allMemes))
 // }
 
-
-
 // -------------------- Phase4 – multiple lines --------------------------
 
 function addTextLine() {
-    const textInput = document.getElementById('text-input');
+    const textInput = document.getElementById('text-input')
     const text = textInput.value.trim()
 
     if (text) {
@@ -158,7 +169,7 @@ function addTextLine() {
 
 // -----------------------------------------------------------------------------------------
 function selectTextLine(index) {
-    selectedLineIndex = index;
+    selectedLineIndex = index
     if (index >= 0 && index < gMeme.lines.length) {
         selectedFillColor = gMeme.lines[index].color
         console.log('Selected fill color:', selectedFillColor)
@@ -205,7 +216,7 @@ function deleteTextLine() {
 // move text on canvas
 
 function initTextLines() {
-    const textLines = document.querySelectorAll('.text-line');
+    const textLines = document.querySelectorAll('.text-line')
 
     textLines.forEach((line, index) => {
         line.draggable = true
@@ -219,7 +230,6 @@ function initTextLines() {
             const draggedIndex = e.dataTransfer.getData('text/plain')
             const droppedIndex = index
             if (draggedIndex !== droppedIndex) {
-                // Example: swapTextLines(draggedIndex, droppedIndex);
                 console.log(`Dragging from ${draggedIndex} to ${droppedIndex}`)
             }
         })
@@ -312,30 +322,27 @@ function updateTextDimensions() {
     })
 }
 
-function setTextFont(fontFamily) {
+function setTextFamily(fontFamily) {
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d')
 
-    gMeme.lines[gMeme.selectedLineIdx].fontFamily = fontFamily
-
-    ctx.font = `${gMeme.lines[gMeme.selectedLineIdx].size}px ${fontFamily}`
-
-    console.log('Font family set:', fontFamily)
-    console.log('Updated gMeme:', gMeme)
-
-    renderMeme()
+    if (gMeme.selectedLineIdx >= 0 && gMeme.selectedLineIdx < gMeme.lines.length) {
+        gMeme.lines[gMeme.selectedLineIdx].fontFamily = fontFamily
+        ctx.font = `${gMeme.lines[gMeme.selectedLineIdx].size}px ${fontFamily}`
+        renderMeme()
+    } else {
+        console.error('Error: No text line selected')
+    }
 }
 
 function setTextSize(fontSize) {
+    const fontFamilySelect = document.getElementById('font-family-select')
+    const selectedFontFamily = fontFamilySelect.value
+    console.log('Selected Font Family:', selectedFontFamily)
+
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d')
-
-    gMeme.lines[gMeme.selectedLineIdx].size = fontSize
-
-    ctx.font = `${fontSize}px ${gMeme.lines[gMeme.selectedLineIdx].fontFamily}`
-
-    console.log('Font size set:', fontSize)
-    console.log('Updated gMeme:', gMeme)
+    ctx.font = `${fontSize}px ${selectedFontFamily}`
 
     renderMeme()
 }
@@ -344,13 +351,7 @@ function setTextAlignment(alignValue) {
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d')
 
-    gMeme.lines[gMeme.selectedLineIdx].alignment = alignValue
-
     ctx.textAlign = alignValue
-
-    console.log('Alignment set:', alignValue)
-    console.log('Updated gMeme:', gMeme)
-
     renderMeme()
 }
 
