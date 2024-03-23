@@ -62,13 +62,11 @@ function initMemeEditor() {
     })
 }
 
-
 function renderMeme() {
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d')
 
     const selectedImageUrl = localStorage.getItem('selectedImageUrl')
-
     if (!selectedImageUrl) {
         console.error('Error: Selected image URL not found')
         return
@@ -76,6 +74,8 @@ function renderMeme() {
 
     const selectedImg = new Image()
     selectedImg.onload = function () {
+        console.log('Image loaded successfully')
+
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.drawImage(selectedImg, 0, 0, canvas.width, canvas.height)
 
@@ -88,8 +88,8 @@ function renderMeme() {
             console.log('Position (X, Y):', line.x, line.y)
 
             if (text.length > 0) {
-                ctx.font = `${line.size}px ${line.fontFamily}`
-                ctx.textAlign = line.alignment
+                ctx.font = `${line.size}px Arial`
+                ctx.textAlign = 'middle'
                 ctx.fillStyle = line.color
 
                 if (index === selectedLineIndex) {
@@ -100,16 +100,16 @@ function renderMeme() {
                     ctx.strokeStyle = 'transparent'
                 }
 
-                ctx.fillText(text, textX, textY)
-
                 const textX = line.x
                 const textY = line.y
+
+                ctx.fillText(text, textX, textY)
 
                 const textWidth = ctx.measureText(text).width
                 const textHeight = line.size
 
-                const boxX = textX - textWidth / 2 - 10;
-                const boxY = textY - textHeight - 10;
+                var boxX = textX - textWidth / 2 - 10;
+                var boxY = textY - textHeight - 10;
                 const boxWidth = textWidth + 20;
                 const boxHeight = textHeight + 20;
 
@@ -123,13 +123,12 @@ function renderMeme() {
 
                 ctx.strokeRect(boxX, boxY, boxWidth, boxHeight)
 
-                console.log(`Rendering text for line ${index}:`, line)
-                console.log(text, textX, textY)
-
                 boxY = textY - textHeight
                 if (index === selectedLineIndex) {
                     ctx.strokeRect(textX - textWidth / 2 - 10, textY - 30, textWidth + 20, 40)
                 }
+                console.log(`Rendering text for line ${index}:`, line)
+                console.log(text, textX, textY)
             }
         })
         updateTextDimensions()

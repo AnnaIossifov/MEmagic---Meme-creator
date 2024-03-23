@@ -144,7 +144,6 @@ function renderImageToCanvas(imageUrl, text) {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     console.log('Random Image URL:', imageUrl)
-    console.log('Random Text:', text)
 
     if (!canvas || !ctx) {
         console.error('Error: Canvas or context not available')
@@ -166,13 +165,13 @@ function renderImageToCanvas(imageUrl, text) {
             ctx.textBaseline = 'middle'
 
             ctx.fillText(text, textX, textY)
+            console.log('Text rendered:', text)
         }
     }
     selectedImg.onerror = function () {
         console.error('Error loading image:', imageUrl)
     }
     selectedImg.src = imageUrl
-    renderMeme()
 }
 
 function generateRandomMeme() {

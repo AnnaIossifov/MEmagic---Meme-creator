@@ -170,11 +170,10 @@ function addTextLine() {
         console.log('gMeme.lines:', gMeme.lines)
         renderMeme()
         textInput.value = ''
-
     } else {
         alert('Please enter text before adding a line.')
     }
-    // console.log('Text added to canvas', text)
+    console.log('Text added to canvas', text)
 }
 
 // -----------------------------------------------------------------------------------------
