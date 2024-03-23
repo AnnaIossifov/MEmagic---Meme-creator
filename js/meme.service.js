@@ -1,24 +1,40 @@
-var gImgs = [
-    {
-        id: 1,
-        url: 'img/1.jpg',
-        keywords: ['funny', 'cat']
-    }
-]
+// var gImgs = [
+//     {
+//         id: 1,
+//         url: 'imgs/meme-imgs (square)/1.jpg',
+//         keywords: ['politician', 'old']
+//     },
+//     {
+//         id: 2,
+//         url: 'imgs/meme-imgs (square)/2.jpg',
+//         keywords: ['love', 'dog']
+//     }
+//     ,
+//     {
+//         id: 3,
+//         url: 'imgs/meme-imgs (square)/3.jpg',
+//         keywords: ['Baby', 'dog', 'sleep']
+//     },
+//     {
+//         id: 4,
+//         url: 'imgs/meme-imgs (square)/4.jpg',
+//         keywords: ['sleep', 'cat']
+//     }
+// ]
 
 let gMeme =
 {
-    selectedImgId: 5,
+    selectedImgId: 2,
     selectedLineIdx: 0,
     lines: [
         {
             txt: '',
-            size: 12,
+            size: 16,
             fontFamily: 'Arial',
             alignment: 'center',
             color: '#000000',
-            x: 0,
-            y: 0
+            x:  canvas.width / 2,
+            y: canvas.height / 2
         }
     ]
 }
@@ -144,18 +160,21 @@ function addTextLine() {
     if (text) {
         gMeme.lines.push({
             txt: text,
-            size: 20,
+            size: 16,
             color: selectedFillColor,
             x: canvas.width / 2,
             y: 50 + gMeme.lines.length * 50,
+            fontFamily: 'Arial',
+            alignment: 'center',
         })
+        console.log('gMeme.lines:', gMeme.lines)
 
         textInput.value = ''
         renderMeme()
     } else {
         alert('Please enter text before adding a line.')
     }
-    console.log('Selected color:', selectedFillColor)
+    // console.log('Text added to canvas', text)
 }
 
 // -----------------------------------------------------------------------------------------
@@ -174,6 +193,28 @@ function switchTextLine() {
     selectedLineIndex = (selectedLineIndex + 1) % gMeme.lines.length
     renderMeme()
 }
+
+// function changeTextPosition(direction) {
+//     // console.log(`Changing text line ${direction}`)
+//     if (selectedLineIndex >= 0 && selectedLineIndex < gMeme.lines.length) {
+//         const moveAmount = 5
+//         const multiplier = direction === 'up' ? -1 : 1
+
+//         gMeme.lines[selectedLineIndex].y += moveAmount * multiplier
+
+//         renderMeme()
+//     }
+// }
+
+// function moveTextLineUp() {
+//     console.log('Changing text line up')
+//     changeTextPosition('up')
+// }
+
+// function moveTextLineDown() {
+//     console.log('Changing text line down')
+//     changeTextPosition('down')
+// }
 
 function moveTextLineUp() {
     console.log('Changing text line up')
@@ -373,8 +414,6 @@ function setSelectedLineColor(color) {
         gMeme.lines[selectedLineIndex].color = color
     }
 }
-
-
 
 // function deleteMeme(memeId) {
 //     console.log('deleting a meme by ID')

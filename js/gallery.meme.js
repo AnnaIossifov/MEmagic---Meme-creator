@@ -1,6 +1,5 @@
 'use strict'
 let isRandom
-
 const imagePaths = {
     "1.jpg": "imgs/meme-imgs (square)/1.jpg",
     "2.jpg": "imgs/meme-imgs (square)/2.jpg",
@@ -46,6 +45,10 @@ const imagePaths = {
     // "42.jpg": "imgs/meme-imgs (various aspect ratios)/34.jpg",
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    loadImages()
+})
+
 function initGallery() {
     loadImages()
     fetchDataFromAPI()
@@ -53,27 +56,6 @@ function initGallery() {
 }
 
 function loadImages() {
-    // const imagePaths = {
-    //     "1.jpg": "imgs/meme-imgs (square)/1.jpg",
-    //     "2.jpg": "imgs/meme-imgs (square)/2.jpg",
-    //     "3.jpg": "imgs/meme-imgs (square)/3.jpg",
-    //     "4.jpg": "imgs/meme-imgs (square)/4.jpg",
-    //     "5.jpg": "imgs/meme-imgs (square)/5.jpg",
-    //     "6.jpg": "imgs/meme-imgs (square)/6.jpg",
-    //     "7.jpg": "imgs/meme-imgs (square)/7.jpg",
-    //     "8.jpg": "imgs/meme-imgs (square)/8.jpg",
-    //     "9.jpg": "imgs/meme-imgs (square)/9.jpg",
-    //     "10.jpg": "imgs/meme-imgs (square)/10.jpg",
-    //     "11.jpg": "imgs/meme-imgs (square)/11.jpg",
-    //     "12.jpg": "imgs/meme-imgs (square)/12.jpg",
-    //     "13.jpg": "imgs/meme-imgs (square)/13.jpg",
-    //     "14.jpg": "imgs/meme-imgs (square)/14.jpg",
-    //     "15.jpg": "imgs/meme-imgs (square)/15.jpg",
-    //     "16.jpg": "imgs/meme-imgs (square)/16.jpg",
-    //     "17.jpg": "imgs/meme-imgs (square)/17.jpg",
-    //     "18.jpg": "imgs/meme-imgs (square)/18.jpg",
-    // }
-
     const galleryContainer = document.querySelector('.gallery-container')
     galleryContainer.innerHTML = ''
 
@@ -81,7 +63,6 @@ function loadImages() {
         const imageUrl = imagePaths[filename]
         const galleryItem = document.createElement('div')
         galleryItem.classList.add('gallery-item')
-
         const img = document.createElement('img')
         img.src = imageUrl
         img.alt = "Meme Image"
@@ -98,10 +79,6 @@ function loadImages() {
         galleryContainer.appendChild(galleryItem)
     }
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-    loadImages()
-})
 
 function fetchDataFromAPI() {
     console.log("Fetching data from API...")
@@ -164,6 +141,8 @@ function renderImageToCanvas(imageUrl, text) {
     localStorage.setItem('selectedImageUrl', imageUrl)
     gMeme.lines[0].txt = text
 
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
     console.log('Random Image URL:', imageUrl)
     console.log('Random Text:', text)
 
@@ -171,8 +150,6 @@ function renderImageToCanvas(imageUrl, text) {
         console.error('Error: Canvas or context not available')
         return
     }
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     const selectedImg = new Image()
 
@@ -195,7 +172,7 @@ function renderImageToCanvas(imageUrl, text) {
         console.error('Error loading image:', imageUrl)
     }
     selectedImg.src = imageUrl
-    // renderMeme()
+    renderMeme()
 }
 
 function generateRandomMeme() {
@@ -203,5 +180,5 @@ function generateRandomMeme() {
     const randomText = getRandomText()
     isRandom = true
     openEditor()
-    renderImageToCanvas(imagePaths[randomImageKey], randomText, isRandom)
+    renderImageToCanvas(imagePaths[randomImageKey], randomText)
 }

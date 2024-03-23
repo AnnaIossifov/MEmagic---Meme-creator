@@ -1,34 +1,29 @@
+'use strict'
+
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
 const galleryImages = document.querySelectorAll('.gallery-item')
-const memeData = { txt: 'Example text' }
-
 const fontFamilySelect = document.getElementById('font-family')
 const fontSizeInput = document.getElementById('font-size')
 const alignLeftBtn = document.getElementById('align-left')
 const alignCenterBtn = document.getElementById('align-center')
 const alignRightBtn = document.getElementById('align-right')
-
+const menuBtn = document.querySelector('.mobile-nav-btn')
+const sideMenu = document.querySelector('.side-menu')
 let isDragging = false
 let textX = 0
 let textY = 0
-
 let offsetY = 0
 let offsetX = 0
-
 let selectedTextColor = ''
 let selectedFillColor = '#e0e0e0'
 let selectedFontFamily = 'Poppins'
 let selectedStrokeColor = '#000000'
-
 let selectedLineIndex = 0
 
-window.addEventListener('load', renderMeme)
+window.addEventListener('load', initMemeEditor)
 document.getElementById('text-input').addEventListener('input', renderMeme)
 canvas.addEventListener('click', handleCanvasClick)
-
-const menuBtn = document.querySelector('.mobile-nav-btn')
-const sideMenu = document.querySelector('.side-menu')
 
 canvas.addEventListener('click', function (e) {
     const canvasRect = canvas.getBoundingClientRect()
@@ -47,20 +42,17 @@ galleryImages.forEach(img => {
     })
 })
 
+textInput.addEventListener('input', function() {
+    addTextLine()
+})
+
 // ------------------------------------------------------------------------------------------
 
 function initMemeEditor() {
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d')
-
-    if (!canvas || !ctx) {
-        console.error('Error: Canvas or context not available')
-        return
-    }
-
     loadMemes()
     initEventListeners()
-
     const galleryImages = document.querySelectorAll('.gallery-item img')
     galleryImages.forEach(img => {
         img.addEventListener('click', function () {
@@ -75,6 +67,7 @@ function renderMeme() {
     const ctx = canvas.getContext('2d')
 
     const selectedImageUrl = localStorage.getItem('selectedImageUrl')
+
     if (!selectedImageUrl) {
         console.error('Error: Selected image URL not found')
         return
@@ -88,6 +81,11 @@ function renderMeme() {
         gMeme.lines.forEach((line, index) => {
             const text = line.txt.trim()
 
+            console.log(`Rendering text for line ${index}: ${text}`)
+            console.log('Size:', line.size);
+            console.log('Color:', line.color);
+            console.log('Position (X, Y):', line.x, line.y)
+
             if (text.length > 0) {
                 ctx.font = `${line.size}px ${line.fontFamily}`
                 ctx.textAlign = line.alignment
@@ -100,15 +98,17 @@ function renderMeme() {
                     ctx.fillStyle = line.color
                     ctx.strokeStyle = 'transparent'
                 }
+
                 const textX = line.x
                 const textY = line.y
-
-                ctx.fillText(text, textX, textY)
 
                 const textWidth = ctx.measureText(text).width
                 const textHeight = line.size
 
-                var boxX, boxY
+                const boxX = textX - textWidth / 2 - 10;
+                const boxY = textY - textHeight - 10;
+                const boxWidth = textWidth + 20;
+                const boxHeight = textHeight + 20;
 
                 if (line.alignment === 'left') {
                     boxX = textX
@@ -117,6 +117,12 @@ function renderMeme() {
                 } else if (line.alignment === 'right') {
                     boxX = textX - textWidth
                 }
+
+                ctx.fillText(text, textX, textY)
+                ctx.strokeRect(boxX, boxY, boxWidth, boxHeight)
+
+                console.log(`Rendering text for line ${index}:`, line)
+                console.log(text, textX, textY)
 
                 boxY = textY - textHeight
                 if (index === selectedLineIndex) {
@@ -180,7 +186,6 @@ function toggleMenu() {
     }
 }
 // ------------------------------------------------------------------------------------
-
 // Function to increase font size
 function onFontSizeUp() {
     const fontSizeIncrement = 2
