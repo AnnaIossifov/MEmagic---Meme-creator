@@ -33,7 +33,7 @@ let gMeme =
             fontFamily: 'Arial',
             alignment: 'center',
             color: '#000000',
-            x:  canvas.width / 2,
+            x: canvas.width / 2,
             y: canvas.height / 2
         }
     ]
@@ -161,16 +161,16 @@ function addTextLine() {
         gMeme.lines.push({
             txt: text,
             size: 16,
+            fontFamily: 'Poppins-bold',
+            alignment: 'center',
             color: selectedFillColor,
             x: canvas.width / 2,
-            y: 50 + gMeme.lines.length * 50,
-            fontFamily: 'Arial',
-            alignment: 'center',
+            y: canvas.height / 2 + gMeme.lines.length * 50
         })
         console.log('gMeme.lines:', gMeme.lines)
-
-        textInput.value = ''
         renderMeme()
+        textInput.value = ''
+
     } else {
         alert('Please enter text before adding a line.')
     }
@@ -194,27 +194,6 @@ function switchTextLine() {
     renderMeme()
 }
 
-// function changeTextPosition(direction) {
-//     // console.log(`Changing text line ${direction}`)
-//     if (selectedLineIndex >= 0 && selectedLineIndex < gMeme.lines.length) {
-//         const moveAmount = 5
-//         const multiplier = direction === 'up' ? -1 : 1
-
-//         gMeme.lines[selectedLineIndex].y += moveAmount * multiplier
-
-//         renderMeme()
-//     }
-// }
-
-// function moveTextLineUp() {
-//     console.log('Changing text line up')
-//     changeTextPosition('up')
-// }
-
-// function moveTextLineDown() {
-//     console.log('Changing text line down')
-//     changeTextPosition('down')
-// }
 
 function moveTextLineUp() {
     console.log('Changing text line up')
@@ -369,7 +348,7 @@ function setTextFamily(fontFamily) {
 
 fontFamilySelect.addEventListener('change', function () {
     const selectedFont = this.value
-    setTextFont(selectedFont)
+    setTextFamily(selectedFont)
 })
 
 function setTextSize(fontSize) {

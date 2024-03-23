@@ -42,7 +42,7 @@ galleryImages.forEach(img => {
     })
 })
 
-textInput.addEventListener('input', function() {
+textInput.addEventListener('input', function () {
     addTextLine()
 })
 
@@ -61,6 +61,7 @@ function initMemeEditor() {
         })
     })
 }
+
 
 function renderMeme() {
     const canvas = document.getElementById('canvas')
@@ -99,6 +100,8 @@ function renderMeme() {
                     ctx.strokeStyle = 'transparent'
                 }
 
+                ctx.fillText(text, textX, textY)
+
                 const textX = line.x
                 const textY = line.y
 
@@ -118,7 +121,6 @@ function renderMeme() {
                     boxX = textX - textWidth
                 }
 
-                ctx.fillText(text, textX, textY)
                 ctx.strokeRect(boxX, boxY, boxWidth, boxHeight)
 
                 console.log(`Rendering text for line ${index}:`, line)
