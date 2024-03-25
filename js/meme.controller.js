@@ -62,6 +62,7 @@ function initMemeEditor() {
     })
 }
 
+
 function renderMeme() {
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d')
@@ -108,10 +109,10 @@ function renderMeme() {
                 const textWidth = ctx.measureText(text).width
                 const textHeight = line.size
 
-                var boxX = textX - textWidth / 2 - 10;
-                var boxY = textY - textHeight - 10;
                 const boxWidth = textWidth + 20;
                 const boxHeight = textHeight + 20;
+
+                let boxX, boxY
 
                 if (line.alignment === 'left') {
                     boxX = textX
@@ -123,7 +124,8 @@ function renderMeme() {
 
                 ctx.strokeRect(boxX, boxY, boxWidth, boxHeight)
 
-                boxY = textY - textHeight
+                boxY = textY - textHeight - 10
+                
                 if (index === selectedLineIndex) {
                     ctx.strokeRect(textX - textWidth / 2 - 10, textY - 30, textWidth + 20, 40)
                 }
